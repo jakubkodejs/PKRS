@@ -100,8 +100,8 @@ class Config extends \PKRS\Core\Service\Service
 
     private function parseDefault()
     {
-        if (file_exists(dirname(__FILE__) . DS . "defaultConfig.ini")) {
-            $conf = parse_ini_file(dirname(__FILE__) . DS . "defaultConfig.ini", true);
+        if (file_exists(dirname(__FILE__) . DS . "defaultConfig.neon")) {
+            $conf = $this->parse_config(dirname(__FILE__).DS."defaultConfig.neon");
             foreach ($conf as $k => $v) $this->set($k, $v);
         }
         if (file_exists(dirname(__FILE__) . DS . "defaultServices.ini")) {

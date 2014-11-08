@@ -1,0 +1,82 @@
+service_container:
+    class = \PKRS\Core\Service\ServiceContainer
+    params:
+        file = "\app\config\config.ini"
+
+config:
+    class = \PKRS\Core\Config\Config
+    params:
+        file = "\app\config\config.ini"
+
+db_config:
+    class = \PKRS\Core\Config\DbConfig
+    params:
+        service = databse
+
+hooks:
+    class = \PKRS\Core\Hooks\Hooks
+    params:
+        service = service_container
+
+router:
+    class = \PKRS\Core\Router\Router
+
+view:
+    class = \PKRS\Core\View\Smarty
+    params:
+        class = \Smarty
+
+database:
+    class = \PKRS\Core\Database\Database
+    params:
+        service = config
+
+session:
+    class = \PKRS\Core\Session\Session
+    params:
+        service = config
+
+cookies:
+    class = \PKRS\Core\Session\Cookies
+    params:
+        service = config
+
+user:
+    class = \PKRS\Core\User\User
+    params:
+        service = session
+        service = config
+        service = database
+
+messages:
+    class = \PKRS\Core\User\Messages
+    params:
+        service = session
+
+forms:
+    class = \PKRS\Core\Requests\Form
+    params
+        service = service_container
+
+debug:
+    class = \PKRS\Core\Debug\Debug
+
+mailer:
+    class = \PKRS\Core\Mailer\Mailer
+    params:
+        class = \PHPMailer
+
+validator:
+    class = \PKRS\Helpers\Validator\Validator
+
+transform_arrays:
+    class = \PKRS\Helpers\Transform\Arrays
+
+transform_datetime:
+    class = \PKRS\Helpers\Transform\DateTime
+
+transform_numbers:
+    class = \PKRS\Helpers\Transform\Numbers
+
+transform_strings:
+    class = \PKRS\Helpers\Transform\Strings
