@@ -26,16 +26,8 @@ namespace PKRS\Core\Presenters;
 interface IBasePresenter
 {
 
-    function __construct();
-
     function need_login();
 
     function set_theme();
-
-    function post_construct();
-
-    function process_post($action);
-
-    function before_display();
 
 }

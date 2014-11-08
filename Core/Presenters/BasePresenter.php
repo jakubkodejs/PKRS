@@ -47,7 +47,7 @@ abstract class BasePresenter extends AppService implements IBasePresenter
     protected $forms = array();
 
 
-    public function __construct()
+    final public function __construct()
     {
         self::gc()->get_hooks()->execute("presenters", "on_create");
         $this->smarty = self::get_container()->get_view()->smarty();
@@ -170,6 +170,18 @@ abstract class BasePresenter extends AppService implements IBasePresenter
             }
         }
         return $modules;
+    }
+
+    function process_post($action){
+
+    }
+
+    function post_construct(){
+
+    }
+
+    function before_display(){
+
     }
 
 
