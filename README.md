@@ -1,3 +1,3 @@
 PKRS
 ====
-d
+Detailní popis je ve wiki
