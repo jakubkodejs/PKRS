@@ -75,6 +75,7 @@ class Application
                         \PKRS\Core\Headers\Redirects::e404($this->config->get("base_path"), $this->config->get("page_404", "404"));
                     }
                 } else {
+
                     if (defined("DEV") && DEV) {
                         throw new \PKRS\Core\Exception\FileException("Application: Class $class_name not exists");
                     }
