@@ -4,14 +4,12 @@
  * Config.php, created 5.8.14
  *
  * Copyright (C) 2014 by Petr Klimes & development team
- * Company: ManSkal - Martin Skalický
  *
  ***************************************************************
  *
  * Contacts:
- * Core developer - petr.klimes@manskal.com
- * More info      - info@manskal.com
- * Website        - www.manskal.com
+ * Core developer - djpitrrs@gmail.com
+ * Website        - www.pkrs.eu
  *
  ***************************************************************
  *

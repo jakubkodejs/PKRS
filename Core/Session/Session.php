@@ -4,14 +4,14 @@
  * Handler.php, created 5.8.14
  *
  * Copyright (C) 2014 by Petr Klimes & development team
- * Company: ManSkal - Martin Skalický
+ *
  *
  ***************************************************************
  *
  * Contacts:
- * Core developer - petr.klimes@manskal.com
- * More info      - info@manskal.com
- * Website        - www.manskal.com
+ * @author: Petr Klimeš <djpitrrs@gmail.com>
+ * @url: http://www.pkrs.eu
+ * @url: https://github.com/pitrrs/PKRS
  *
  ***************************************************************
  *
