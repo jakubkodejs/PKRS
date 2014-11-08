@@ -55,8 +55,15 @@ class Config extends \PKRS\Core\Service\Service
             else if (substr($config_file, strlen($config_file) - 5, strlen($config_file)) == ".neon") {
                 $neon = new \Neon();
                 $conf = $neon->decode($config_file);
-            } else {
-                throw new \PKRS\Core\Exception\ConfigException("Config: file extension must be only .ini or .neon");
+            }
+            else if (substr($config_file, strlen($config_file) - 4, strlen($config_file)) == ".php"){
+                $file = include($config_file);
+                if (is_array($file))
+                    $conf = $file;
+                else throw new \PKRS\Core\Exception\ConfigException("Config: returned value from PHP config is not array!");
+            }
+            else {
+                throw new \PKRS\Core\Exception\ConfigException("Config: file extension must be only .ini, .php or .neon");
             }
             return $conf;
         } else {
@@ -132,7 +139,7 @@ class Config extends \PKRS\Core\Service\Service
 
     private function parseServices()
     {
-        if (!isset($this->config["services_overide"])) return;
+        if (!isset($this->config["services_overide"]) || !is_array($this->config["services_overide"])) return;
         foreach ($this->config["services_overide"] as $key => $value) {
             if (isset($value["class"])) {
                 $cl_name = "\\" . str_replace("/", "\\", trim($value["class"], "/"));
