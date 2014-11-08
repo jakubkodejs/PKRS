@@ -1,0 +1,204 @@
+.debug_page {
+    padding: 0;
+    margin: 0;
+    background: #ff0000;
+    color: #101010
+}
+
+table.debug_table {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+}
+
+table.debug_table.collapese tbody {
+    display: none;
+}
+
+table.debug_table thead th {
+    cursor: pointer;
+}
+
+table.debug_table.collapese thead th {
+    color: #ffffff;
+    background: #ff0000;
+}
+
+table.debug_table thead tr {
+    background: #ddddbe;
+    color: #101010;
+    text-align: left;
+    font-weight: bold;
+}
+
+table.debug_table tr td:first-child {
+    font-weight: bold;
+}
+
+table.debug_table tbody td, table.debug_table thead th {
+    padding: 5px;
+    word-wrap: normal;
+    white-space: normal;
+    vertical-align: top;
+    border: 1px solid #101010;
+}
+
+table.debug_table strong {
+    display: inline;
+    word-wrap: normal;
+    white-space: nowrap;
+}
+
+.debug_page h1 {
+    text-align: center;
+    margin: 0;
+    padding: 10px 0;
+    color: #ffffff;
+}
+
+.debugger_cont {
+    background: #f8e7e8;
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.debugger_stack {
+    width: 100%;
+    display: block;
+    margin: 0 0 20px 0;
+
+}
+
+.debugger_stack .debugger_file {
+    white-space: pre;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    unicode-bidi: embed;
+    background: #f9fbff;
+    padding: 0;
+    border: 1px solid #505050;
+}
+
+.debugger_stack .debugger_file .debugger_file_header {
+    display: inline-block;
+    width: 100%;
+    background: #ff0000;
+    margin: 0;
+    cursor: pointer;
+}
+
+.debugger_stack .debugger_file .debugger_file_header:hover {
+    background: #ff3c44;
+}
+
+.debugger_stack .debugger_file .debugger_file_header h4 {
+    margin: 7px 10px;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.debugger_stack .debugger_file .debugger_file_content {
+    width: 96%;
+    color: #101010;
+    display: none;
+    padding: 10px 2%;
+}
+
+.debugger_stack.debugger_stack_opened .debugger_file .debugger_file_content {
+    display: block;
+}
+
+.debugger_stack .debugger_file .debugger_file_content span.debugger_line {
+    display: block;
+    font-size: 15px;
+    line-height: 20px;;
+    padding: 0 7px;
+}
+
+.debugger_stack .debugger_file .debugger_file_content span.debugger_line.debugger_selected {
+    background: #ffd2c7;
+    font-weight: bold;
+    line-height: 28px;
+}
+
+.debugger_server {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 35px;
+    z-index: 9999;
+}
+
+.debugger_server .debugger_content {
+    width: 95%;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+}
+
+.debugger_server .debugger_content .debugger_block {
+    cursor: pointer;
+    float: left;
+    position: relative;
+    display: block;
+    width: auto;
+    height: 35px;
+    margin: 0 5px;
+    background: #1384dd;
+    z-index: 9999999;
+    padding: 0 10px;
+}
+
+.debugger_server .debugger_content .debugger_block .debugger_block_name {
+    display: inline-block;
+    width: 100%;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.debugger_server .debugger_content .debugger_block .debugger_block_content {
+    display: none;
+    position: fixed;
+    cursor: auto;
+    bottom: 36px;
+    left: 2%;
+    overflow: auto;
+    width: 95%;
+    height: 90%;
+    margin: auto auto;
+    padding: 10px;
+    background: #0f5e9e;
+    border: 5px solid #0a385d;
+    color: #ffffff;
+}
+
+.debugger_server .debugger_content .debugger_block.debugger_opened .debugger_block_content {
+    display: block;
+    white-space: pre;
+    overflow: auto;
+    unicode-bidi: embed;
+    z-index: 999999;
+}
+
+.debugger_server .debugger_content .debugger_block.debugger_opened,
+.debugger_server .debugger_content .debugger_block:hover {
+    background: #0f5e9e;
+    height: 45px !important;
+}
+
+.debugger_server .debugger_content .debugger_block .debugger_block_content h2 {
+    text-align: center;
+}
+
+#debugger_ajax {
+    display: none;
+}
