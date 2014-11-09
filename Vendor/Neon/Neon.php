@@ -29,9 +29,12 @@ class Neon
 
     public function __construct()
     {
-        include(dirname(__FILE__) . DS . "Neon_class.php");
-        include(dirname(__FILE__) . DS . "Encoder.php");
-        include(dirname(__FILE__) . DS . "Decoder.php");
+        if (!defined("__PKRS_NEON_LOADED")){
+            require(dirname(__FILE__) . DS . "Neon_class.php");
+            require(dirname(__FILE__) . DS . "Encoder.php");
+            require(dirname(__FILE__) . DS . "Decoder.php");
+            require(dirname(__FILE__) . DS . "Exception.php");
+        }
         $this->neon = new \Neon\Neon_class();
     }
 

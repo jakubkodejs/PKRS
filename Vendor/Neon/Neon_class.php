@@ -39,6 +39,8 @@ namespace Neon {
          */
         public static function decode($input)
         {
+            if (!defined("__PKRS_NEON_LOADED"))
+                define("__PKRS_NEON_LOADED",true);
             $decoder = new Decoder;
             return $decoder->decode($input);
         }
