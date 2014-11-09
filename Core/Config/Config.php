@@ -47,10 +47,10 @@ class Config extends \PKRS\Core\Service\Service
 
     public function parse_config($config_file)
     {
+        if (in_array(sha1($config_file),array_keys($this->loaded)))
+            return (array)$this->loaded[sha1($config_file)];
         if (file_exists($config_file)) {
-            if (substr($config_file, strlen($config_file) - 4, strlen($config_file)) == ".ini")
-                $conf = parse_ini_file($config_file, true);
-            else if (substr($config_file, strlen($config_file) - 5, strlen($config_file)) == ".neon") {
+            if (substr($config_file, strlen($config_file) - 5, strlen($config_file)) == ".neon") {
                 $neon = new \Neon();
                 $conf = $neon->decode($config_file);
             }
@@ -61,8 +61,9 @@ class Config extends \PKRS\Core\Service\Service
                 else throw new \PKRS\Core\Exception\ConfigException("Config: returned value from PHP config is not array!");
             }
             else {
-                throw new \PKRS\Core\Exception\ConfigException("Config: file extension must be only .ini, .php or .neon");
+                throw new \PKRS\Core\Exception\ConfigException("Config: file extension must be only .php or .neon");
             }
+            $this->loaded[sha1($config_file)] = $conf;
             return $conf;
         } else {
             throw new \PKRS\Core\Exception\FileException("Config: file $config_file not exists!");
@@ -76,7 +77,6 @@ class Config extends \PKRS\Core\Service\Service
             foreach ($value as $key => $val)
                 $this->config[$section][$key] = $val;
         }
-        $this->loaded[] = $config_file;
         $this->parseServices();
     }
 
@@ -104,8 +104,9 @@ class Config extends \PKRS\Core\Service\Service
             $conf = $this->parse_config(dirname(__FILE__).DS."defaultConfig.neon");
             foreach ($conf as $k => $v) $this->set($k, $v);
         }
-        if (file_exists(dirname(__FILE__) . DS . "defaultServices.ini")) {
-            $conf = parse_ini_file(dirname(__FILE__) . DS . "defaultServices.ini", true);
+        if (file_exists(dirname(__FILE__) . DS . "defaultServices.neon")) {
+            $conf = $this->parse_config(dirname(__FILE__) . DS . "defaultServices.neon");
+            var_dump($conf);
             foreach ($conf as $key => $value) {
                 if (isset($value["class"])) {
                     $cl_name = "\\" . str_replace("/", "\\", trim($value["class"], "/"));
@@ -131,7 +132,6 @@ class Config extends \PKRS\Core\Service\Service
                     } else throw new \PKRS\Core\Exception\ConfigException("Service class $cl_name not exists!");
                 } else throw new \PKRS\Core\Exception\ConfigException("File defaultServices.ini corrupted! Not defined class in $key service!");
             }
-            $this->loaded[] = dirname(__FILE__) . DS . "defaultServices.ini";
         }
     }
 
