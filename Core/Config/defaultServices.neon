@@ -1,82 +1,82 @@
 service_container:
-    class = \PKRS\Core\Service\ServiceContainer
+    class = /PKRS/Core/Service/ServiceContainer
     params:
-        file = "\app\config\config.ini"
+        file = "/app/config/config.ini"
 
 config:
-    class = \PKRS\Core\Config\Config
+    class = /PKRS/Core/Config/Config
     params:
-        file = "\app\config\config.ini"
+        file = "/app/config/config.ini"
 
 db_config:
-    class = \PKRS\Core\Config\DbConfig
+    class = /PKRS/Core/Config/DbConfig
     params:
         service = databse
 
 hooks:
-    class = \PKRS\Core\Hooks\Hooks
+    class = /PKRS/Core/Hooks/Hooks
     params:
         service = service_container
 
 router:
-    class = \PKRS\Core\Router\Router
+    class = /PKRS/Core/Router/Router
 
 view:
-    class = \PKRS\Core\View\Smarty
+    class = /PKRS/Core/View/Smarty
     params:
-        class = \Smarty
+        class = /Smarty
 
 database:
-    class = \PKRS\Core\Database\Database
+    class = /PKRS/Core/Database/Database
     params:
         service = config
 
 session:
-    class = \PKRS\Core\Session\Session
+    class = /PKRS/Core/Session/Session
     params:
         service = config
 
 cookies:
-    class = \PKRS\Core\Session\Cookies
+    class = /PKRS/Core/Session/Cookies
     params:
         service = config
 
 user:
-    class = \PKRS\Core\User\User
+    class = /PKRS/Core/User/User
     params:
-        service = session
-        service = config
-        service = database
+        - service = session
+        - service = config
+        - service = database
 
 messages:
-    class = \PKRS\Core\User\Messages
+    class = /PKRS/Core/User/Messages
     params:
         service = session
 
 forms:
-    class = \PKRS\Core\Requests\Form
-    params
+    class = /PKRS/Core/Requests/Form
+    params:
         service = service_container
 
 debug:
-    class = \PKRS\Core\Debug\Debug
+    class = /PKRS/Core/Debug/Debug
 
 mailer:
-    class = \PKRS\Core\Mailer\Mailer
+    class = /PKRS/Core/Mailer/Mailer
     params:
-        class = \PHPMailer
+        class = /PHPMailer
 
 validator:
-    class = \PKRS\Helpers\Validator\Validator
+    class = /PKRS/Helpers/Validator/Validator
 
 transform_arrays:
-    class = \PKRS\Helpers\Transform\Arrays
+    class = /PKRS/Helpers/Transform/Arrays
 
 transform_datetime:
-    class = \PKRS\Helpers\Transform\DateTime
+    class = /PKRS/Helpers/Transform/DateTime
 
 transform_numbers:
-    class = \PKRS\Helpers\Transform\Numbers
+    class = /PKRS/Helpers/Transform/Numbers
 
 transform_strings:
-    class = \PKRS\Helpers\Transform\Strings
+    class = /PKRS/Helpers/Transform/Strings
