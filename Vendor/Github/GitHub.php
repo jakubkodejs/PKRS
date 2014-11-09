@@ -105,6 +105,9 @@ class GitHub
 
     private function log($message)
     {
+        $h = fopen(dirname(__FILE__).DS."log.txt","a");
+        fwrite($h, $message.PHP_EOL);
+        fclose($h);
         $this->log[] = $message;
     }
 
