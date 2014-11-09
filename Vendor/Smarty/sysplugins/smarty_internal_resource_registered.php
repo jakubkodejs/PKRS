@@ -21,7 +21,7 @@ class Smarty_Internal_Resource_Registered extends Smarty_Resource
     /**
      * populate Source Object with meta data from Resource
      *
-     * @param  Smarty_Template_Source $source source object
+     * @param  Smarty_Template_Source   $source    source object
      * @param  Smarty_Internal_Template $_template template object
      *
      * @return void
@@ -62,7 +62,7 @@ class Smarty_Internal_Resource_Registered extends Smarty_Resource
         $time_stamp = false;
         call_user_func_array($source->smarty->registered_resources[$source->type][0][1], array($source->name, &$time_stamp, $source->smarty));
 
-        return is_numeric($time_stamp) ? (int)$time_stamp : $time_stamp;
+        return is_numeric($time_stamp) ? (int) $time_stamp : $time_stamp;
     }
 
     /**

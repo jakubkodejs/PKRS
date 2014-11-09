@@ -19,13 +19,13 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * fetches a rendered Smarty template
      *
-     * @param  string $template the resource handle of the template file or template object
-     * @param  mixed $cache_id cache id to be used with this template
-     * @param  mixed $compile_id compile id to be used with this template
-     * @param  object $parent next higher level of Smarty variables
-     * @param  bool $display true: display, false: fetch
-     * @param  bool $merge_tpl_vars if true parent template variables merged in to local scope
-     * @param  bool $no_output_filter if true do not run output filter
+     * @param  string $template         the resource handle of the template file or template object
+     * @param  mixed  $cache_id         cache id to be used with this template
+     * @param  mixed  $compile_id       compile id to be used with this template
+     * @param  object $parent           next higher level of Smarty variables
+     * @param  bool   $display          true: display, false: fetch
+     * @param  bool   $merge_tpl_vars   if true parent template variables merged in to local scope
+     * @param  bool   $no_output_filter if true do not run output filter
      *
      * @throws Exception
      * @throws SmartyException
@@ -145,7 +145,8 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                         ob_start();
                         eval("?>" . $code);
                         unset($code);
-                    } catch (Exception $e) {
+                    }
+                    catch (Exception $e) {
                         ob_get_clean();
                         throw $e;
                     }
@@ -190,7 +191,8 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                             $_template->capture_error();
                         }
                         array_shift($_template->_capture_stack);
-                    } catch (Exception $e) {
+                    }
+                    catch (Exception $e) {
                         ob_get_clean();
                         throw $e;
                     }
@@ -203,7 +205,8 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                     try {
                         ob_start();
                         $_template->source->renderUncompiled($_template);
-                    } catch (Exception $e) {
+                    }
+                    catch (Exception $e) {
                         ob_get_clean();
                         throw $e;
                     }
@@ -242,7 +245,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                 // loop over items, stitch back together
                 foreach ($cache_split as $curr_idx => $curr_split) {
                     // escape PHP tags in template content
-                    $output .= preg_replace('/(<%|%>|<\?php|<\?|\?>)/', "<?php echo '\$1'; ?>\n", $curr_split);
+                    $output .= preg_replace('/(<%|%>|<\?php|<\?|\?>|<script\s+language\s*=\s*[\"\']?\s*php\s*[\"\']?\s*>)/', "<?php echo '\$1'; ?>\n", $curr_split);
                     if (isset($cache_parts[0][$curr_idx])) {
                         $_template->properties['has_nocache_code'] = true;
                         // remove nocache tags from cache output
@@ -261,7 +264,8 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                     ob_start();
                     eval("?>" . $output);
                     $_output = ob_get_clean();
-                } catch (Exception $e) {
+                }
+                catch (Exception $e) {
                     ob_get_clean();
                     throw $e;
                 }
@@ -295,7 +299,8 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                 }
                 array_shift($_template->_capture_stack);
                 $_output = ob_get_clean();
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 ob_get_clean();
                 throw $e;
             }
@@ -378,10 +383,10 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * displays a Smarty template
      *
-     * @param string $template the resource handle of the template file or template object
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
-     * @param object $parent next higher level of Smarty variables
+     * @param string $template   the resource handle of the template file or template object
+     * @param mixed  $cache_id   cache id to be used with this template
+     * @param mixed  $compile_id compile id to be used with this template
+     * @param object $parent     next higher level of Smarty variables
      */
     public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
     {
@@ -392,10 +397,10 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * test if cache is valid
      *
-     * @param  string|object $template the resource handle of the template file or template object
-     * @param  mixed $cache_id cache id to be used with this template
-     * @param  mixed $compile_id compile id to be used with this template
-     * @param  object $parent next higher level of Smarty variables
+     * @param  string|object $template   the resource handle of the template file or template object
+     * @param  mixed         $cache_id   cache id to be used with this template
+     * @param  mixed         $compile_id compile id to be used with this template
+     * @param  object        $parent     next higher level of Smarty variables
      *
      * @return boolean       cache status
      */
@@ -429,11 +434,11 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * Registers plugin to be used in templates
      *
-     * @param  string $type plugin type
-     * @param  string $tag name of template tag
-     * @param  callback $callback PHP callback to register
-     * @param  boolean $cacheable if true (default) this fuction is cachable
-     * @param  array $cache_attr caching attributes if any
+     * @param  string   $type       plugin type
+     * @param  string   $tag        name of template tag
+     * @param  callback $callback   PHP callback to register
+     * @param  boolean  $cacheable  if true (default) this fuction is cachable
+     * @param  array    $cache_attr caching attributes if any
      *
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
      * @throws SmartyException              when the plugin tag is invalid
@@ -445,7 +450,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
         } elseif (!is_callable($callback)) {
             throw new SmartyException("Plugin \"{$tag}\" not callable");
         } else {
-            $this->smarty->registered_plugins[$type][$tag] = array($callback, (bool)$cacheable, (array)$cache_attr);
+            $this->smarty->registered_plugins[$type][$tag] = array($callback, (bool) $cacheable, (array) $cache_attr);
         }
 
         return $this;
@@ -455,7 +460,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * Unregister Plugin
      *
      * @param  string $type of plugin
-     * @param  string $tag name of plugin
+     * @param  string $tag  name of plugin
      *
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
      */
@@ -471,7 +476,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * Registers a resource to fetch a template
      *
-     * @param  string $type name of resource type
+     * @param  string                $type     name of resource type
      * @param  Smarty_Resource|array $callback or instance of Smarty_Resource, or array of callbacks to handle resource (deprecated)
      *
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
@@ -502,7 +507,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * Registers a cache resource to cache a template's output
      *
-     * @param  string $type name of cache resource type
+     * @param  string               $type     name of cache resource type
      * @param  Smarty_CacheResource $callback instance of Smarty_CacheResource to handle output caching
      *
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
@@ -534,10 +539,10 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * Registers object to be used in templates
      *
      * @param          $object_name
-     * @param  object $object_impl the referenced PHP object to register
-     * @param  array $allowed list of allowed methods (empty = all)
-     * @param  boolean $smarty_args smarty argument format, else traditional
-     * @param  array $block_methods list of block-methods
+     * @param  object  $object_impl   the referenced PHP object to register
+     * @param  array   $allowed       list of allowed methods (empty = all)
+     * @param  boolean $smarty_args   smarty argument format, else traditional
+     * @param  array   $block_methods list of block-methods
      *
      * @throws SmartyException
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
@@ -546,7 +551,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     {
         // test if allowed methods callable
         if (!empty($allowed)) {
-            foreach ((array)$allowed as $method) {
+            foreach ((array) $allowed as $method) {
                 if (!is_callable(array($object_impl, $method)) && !property_exists($object_impl, $method)) {
                     throw new SmartyException("Undefined method or property '$method' in registered object");
                 }
@@ -554,7 +559,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
         }
         // test if block methods callable
         if (!empty($block_methods)) {
-            foreach ((array)$block_methods as $method) {
+            foreach ((array) $block_methods as $method) {
                 if (!is_callable(array($object_impl, $method))) {
                     throw new SmartyException("Undefined method '$method' in registered object");
                 }
@@ -562,7 +567,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
         }
         // register the object
         $this->smarty->registered_objects[$object_name] =
-            array($object_impl, (array)$allowed, (boolean)$smarty_args, (array)$block_methods);
+            array($object_impl, (array) $allowed, (boolean) $smarty_args, (array) $block_methods);
 
         return $this;
     }
@@ -684,7 +689,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * Registers a filter function
      *
-     * @param  string $type filter type
+     * @param  string   $type filter type
      * @param  callback $callback
      *
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
@@ -699,7 +704,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
     /**
      * Unregisters a filter function
      *
-     * @param  string $type filter type
+     * @param  string   $type filter type
      * @param  callback $callback
      *
      * @return Smarty_Internal_Templatebase current Smarty_Internal_Templatebase (or Smarty or Smarty_Internal_Template) instance for chaining
@@ -792,7 +797,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
      * Handle unknown class methods
      *
      * @param string $name unknown method-name
-     * @param array $args argument array
+     * @param array  $args argument array
      *
      * @throws SmartyException
      */
@@ -844,7 +849,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                 }
             } else {
                 throw new SmartyException("property '$property_name' does not exist.");
-            }
+           }
         }
         if ($name == 'Smarty') {
             throw new SmartyException("PHP5 requires you to call __construct() instead of Smarty()");

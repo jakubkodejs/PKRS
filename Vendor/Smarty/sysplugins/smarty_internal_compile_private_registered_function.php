@@ -27,10 +27,10 @@ class Smarty_Internal_Compile_Private_Registered_Function extends Smarty_Interna
     /**
      * Compiles code for the execution of a registered function
      *
-     * @param  array $args array with attributes from parser
-     * @param  object $compiler compiler object
-     * @param  array $parameter array with compilation parameter
-     * @param  string $tag name of function
+     * @param  array  $args      array with attributes from parser
+     * @param  object $compiler  compiler object
+     * @param  array  $parameter array with compilation parameter
+     * @param  string $tag       name of function
      *
      * @return string compiled code
      */

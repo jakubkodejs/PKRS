@@ -20,7 +20,7 @@ class Smarty_Internal_Write_File
      *
      * @param  string $_filepath complete filepath
      * @param  string $_contents file content
-     * @param  Smarty $smarty smarty instance
+     * @param  Smarty $smarty    smarty instance
      *
      * @throws SmartyException
      * @return boolean true
@@ -44,7 +44,7 @@ class Smarty_Internal_Write_File
         if (!file_put_contents($_tmp_file, $_contents)) {
             error_reporting($_error_reporting);
             throw new SmartyException("unable to write file {$_tmp_file}");
-        }
+       }
 
         /*
          * Windows' rename() fails if the destination exists,

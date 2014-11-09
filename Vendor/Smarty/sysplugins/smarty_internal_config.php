@@ -70,8 +70,8 @@ class Smarty_Internal_Config
      * Constructor of config file object
      *
      * @param string $config_resource config file resource name
-     * @param Smarty $smarty Smarty instance
-     * @param object $data object for config vars storage
+     * @param Smarty $smarty          Smarty instance
+     * @param object $data            object for config vars storage
      */
     public function __construct($config_resource, $smarty, $data = null)
     {
@@ -100,8 +100,8 @@ class Smarty_Internal_Config
     public function buildCompiledFilepath()
     {
         $_compile_id = isset($this->smarty->compile_id) ? preg_replace('![^\w\|]+!', '_', $this->smarty->compile_id) : null;
-        $_flag = (int)$this->smarty->config_read_hidden + (int)$this->smarty->config_booleanize * 2
-            + (int)$this->smarty->config_overwrite * 4;
+        $_flag = (int) $this->smarty->config_read_hidden + (int) $this->smarty->config_booleanize * 2
+            + (int) $this->smarty->config_overwrite * 4;
         $_filepath = sha1(realpath($this->source->filepath) . $_flag);
         // if use_sub_dirs, break file into directories
         if ($this->smarty->use_sub_dirs) {
@@ -185,7 +185,8 @@ class Smarty_Internal_Config
         // call compiler
         try {
             $this->compiler_object->compileSource($this);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             // restore old timestamp in case of error
             if ($this->smarty->compile_locking && $saved_timestamp) {
                 touch($this->getCompiledFilepath(), $saved_timestamp);
@@ -200,8 +201,8 @@ class Smarty_Internal_Config
     /**
      * load config variables
      *
-     * @param mixed $sections array of section names, single section or null
-     * @param string $scope global,parent or local
+     * @param mixed         $sections array of section names, single section or null
+     * @param string $scope    global,parent or local
      *
      * @throws Exception
      */
@@ -235,18 +236,18 @@ class Smarty_Internal_Config
             if ($this->smarty->config_overwrite || !isset($scope_ptr->config_vars[$variable])) {
                 $scope_ptr->config_vars[$variable] = $value;
             } else {
-                $scope_ptr->config_vars[$variable] = array_merge((array)$scope_ptr->config_vars[$variable], (array)$value);
+                $scope_ptr->config_vars[$variable] = array_merge((array) $scope_ptr->config_vars[$variable], (array) $value);
             }
         }
         // scan sections
         if (!empty($sections)) {
-            foreach ((array)$sections as $this_section) {
+            foreach ((array) $sections as $this_section) {
                 if (isset($_config_vars['sections'][$this_section])) {
                     foreach ($_config_vars['sections'][$this_section]['vars'] as $variable => $value) {
                         if ($this->smarty->config_overwrite || !isset($scope_ptr->config_vars[$variable])) {
                             $scope_ptr->config_vars[$variable] = $value;
                         } else {
-                            $scope_ptr->config_vars[$variable] = array_merge((array)$scope_ptr->config_vars[$variable], (array)$value);
+                            $scope_ptr->config_vars[$variable] = array_merge((array) $scope_ptr->config_vars[$variable], (array) $value);
                         }
                     }
                 }
@@ -258,7 +259,7 @@ class Smarty_Internal_Config
      * set Smarty property in template context
      *
      * @param  string $property_name property name
-     * @param  mixed $value value
+     * @param  mixed  $value         value
      *
      * @throws SmartyException if $property_name is not valid
      */

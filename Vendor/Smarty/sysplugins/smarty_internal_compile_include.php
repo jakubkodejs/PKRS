@@ -52,9 +52,9 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
     /**
      * Compiles code for the {include} tag
      *
-     * @param  array $args array with attributes from parser
-     * @param  object $compiler compiler object
-     * @param  array $parameter array with compilation parameter
+     * @param  array  $args      array with attributes from parser
+     * @param  object $compiler  compiler object
+     * @param  array  $parameter array with compilation parameter
      *
      * @return string compiled code
      */
@@ -236,7 +236,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
             $_output .= "\$_tpl_stack[] = \$_smarty_tpl;\n";
             if (!empty($nccode) && $_caching == 9999 && $_smarty_tpl->caching) {
                 $compiler->suppressNocacheProcessing = false;
-                $_output .= substr($compiler->processNocacheCode('<?php ' . $nccode . "?>\n", true), 6, -3);
+                $_output .=  substr($compiler->processNocacheCode('<?php ' .$nccode . "?>\n", true), 6, -3);
                 $compiler->suppressNocacheProcessing = true;
             }
             $_output .= " \$_smarty_tpl = \$_smarty_tpl->setupInlineSubTemplate($include_file, $_cache_id, $_compile_id, $_caching, $_cache_lifetime, $_vars, $_parent_scope, '$_hash');\n";

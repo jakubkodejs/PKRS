@@ -30,7 +30,7 @@ class Smarty_Internal_Resource_PHP extends Smarty_Resource_Uncompiled
     /**
      * populate Source Object with meta data from Resource
      *
-     * @param  Smarty_Template_Source $source source object
+     * @param  Smarty_Template_Source   $source    source object
      * @param  Smarty_Internal_Template $_template template object
      *
      * @return void
@@ -84,7 +84,7 @@ class Smarty_Internal_Resource_PHP extends Smarty_Resource_Uncompiled
     /**
      * Render and output the template (without using the compiler)
      *
-     * @param  Smarty_Template_Source $source source object
+     * @param  Smarty_Template_Source   $source    source object
      * @param  Smarty_Internal_Template $_template template object
      *
      * @return void

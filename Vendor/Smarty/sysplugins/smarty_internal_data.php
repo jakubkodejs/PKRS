@@ -45,8 +45,8 @@ class Smarty_Internal_Data
      * assigns a Smarty variable
      *
      * @param  array|string $tpl_var the template variable name(s)
-     * @param  mixed $value the value to assign
-     * @param  boolean $nocache if true any output of this variable will be not cached
+     * @param  mixed        $value   the value to assign
+     * @param  boolean      $nocache if true any output of this variable will be not cached
      *
      * @return Smarty_Internal_Data current Smarty_Internal_Data (or Smarty or Smarty_Internal_Template) instance for chaining
      */
@@ -70,8 +70,8 @@ class Smarty_Internal_Data
     /**
      * assigns a global Smarty variable
      *
-     * @param  string $varname the global variable name
-     * @param  mixed $value the value to assign
+     * @param  string  $varname the global variable name
+     * @param  mixed   $value   the value to assign
      * @param  boolean $nocache if true any output of this variable will be not cached
      *
      * @return Smarty_Internal_Data current Smarty_Internal_Data (or Smarty or Smarty_Internal_Template) instance for chaining
@@ -93,7 +93,7 @@ class Smarty_Internal_Data
     /**
      * assigns values to template variables by reference
      *
-     * @param string $tpl_var the template variable name
+     * @param string   $tpl_var the template variable name
      * @param          $value
      * @param  boolean $nocache if true any output of this variable will be not cached
      *
@@ -113,9 +113,9 @@ class Smarty_Internal_Data
      * appends values to template variables
      *
      * @param  array|string $tpl_var the template variable name(s)
-     * @param  mixed $value the value to append
-     * @param  boolean $merge flag if array elements shall be merged
-     * @param  boolean $nocache if true any output of this variable will be not cached
+     * @param  mixed        $value   the value to append
+     * @param  boolean      $merge   flag if array elements shall be merged
+     * @param  boolean      $nocache if true any output of this variable will be not cached
      *
      * @return Smarty_Internal_Data current Smarty_Internal_Data (or Smarty or Smarty_Internal_Template) instance for chaining
      */
@@ -174,9 +174,9 @@ class Smarty_Internal_Data
     /**
      * appends values to template variables by reference
      *
-     * @param  string $tpl_var the template variable name
-     * @param  mixed &$value the referenced value to append
-     * @param  boolean $merge flag if array elements shall be merged
+     * @param  string  $tpl_var the template variable name
+     * @param  mixed   &$value  the referenced value to append
+     * @param  boolean $merge   flag if array elements shall be merged
      *
      * @return Smarty_Internal_Data current Smarty_Internal_Data (or Smarty or Smarty_Internal_Template) instance for chaining
      */
@@ -204,8 +204,8 @@ class Smarty_Internal_Data
     /**
      * Returns a single or all template variables
      *
-     * @param  string $varname variable name or null
-     * @param  object $_ptr optional pointer to data object
+     * @param  string  $varname        variable name or null
+     * @param  object   $_ptr           optional pointer to data object
      * @param  boolean $search_parents include parent templates?
      *
      * @return string  variable value or or array of variables
@@ -285,7 +285,7 @@ class Smarty_Internal_Data
      * load a config file, optionally load just selected sections
      *
      * @param  string $config_file filename
-     * @param  mixed $sections array of section names, single section or null
+     * @param  mixed  $sections    array of section names, single section or null
      *
      * @return Smarty_Internal_Data current Smarty_Internal_Data (or Smarty or Smarty_Internal_Template) instance for chaining
      */
@@ -301,10 +301,10 @@ class Smarty_Internal_Data
     /**
      * gets the object of a Smarty variable
      *
-     * @param  string $variable the name of the Smarty variable
-     * @param  object $_ptr optional pointer to data object
+     * @param  string  $variable       the name of the Smarty variable
+     * @param  object  $_ptr           optional pointer to data object
      * @param  boolean $search_parents search also in parent data
-     * @param bool $error_enable
+     * @param bool     $error_enable
      *
      * @return object  the object of the variable
      */
@@ -341,7 +341,7 @@ class Smarty_Internal_Data
      * gets  a config variable
      *
      * @param  string $variable the name of the config variable
-     * @param bool $error_enable
+     * @param bool    $error_enable
      *
      * @return mixed  the value of the config variable
      */
@@ -396,7 +396,7 @@ class Smarty_Internal_Data
      * Returns a single or all config variables
      *
      * @param  string $varname variable name or null
-     * @param bool $search_parents
+     * @param bool    $search_parents
      *
      * @return string variable value or or array of variables
      */
@@ -465,7 +465,7 @@ class Smarty_Data extends Smarty_Internal_Data
      * create Smarty data object
      *
      * @param Smarty|array $_parent parent template
-     * @param Smarty|Smarty_Internal_Template $smarty global smarty instance
+     * @param Smarty|Smarty_Internal_Template       $smarty  global smarty instance
      *
      * @throws SmartyException
      */
@@ -517,9 +517,9 @@ class Smarty_Variable
     /**
      * create Smarty variable object
      *
-     * @param mixed $value the value to assign
+     * @param mixed   $value   the value to assign
      * @param boolean $nocache if true any output of this variable will be not cached
-     * @param int $scope the scope the variable will have  (local,parent or root)
+     * @param int     $scope   the scope the variable will have  (local,parent or root)
      */
     public function __construct($value = null, $nocache = false, $scope = Smarty::SCOPE_LOCAL)
     {
@@ -535,7 +535,7 @@ class Smarty_Variable
      */
     public function __toString()
     {
-        return (string)$this->value;
+        return (string) $this->value;
     }
 }
 

@@ -10,10 +10,10 @@ if (!function_exists('smarty_mb_str_replace')) {
     /**
      * Multibyte string replace
      *
-     * @param  string $search the string to be searched
+     * @param  string $search  the string to be searched
      * @param  string $replace the replacement string
      * @param  string $subject the source string
-     * @param  int &$count number of matches found
+     * @param  int    &$count  number of matches found
      *
      * @return string replaced string
      * @author Rodney Rehm
@@ -37,7 +37,7 @@ if (!function_exists('smarty_mb_str_replace')) {
                 }
             } else {
                 $n = max(count($search), count($replace));
-                while ($n--) {
+                while ($n --) {
                     $subject = smarty_mb_str_replace(current($search), current($replace), $subject, $c);
                     $count += $c;
                     next($search);

@@ -219,7 +219,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
      * Method to compile a Smarty template
      *
      * @param  Smarty_Internal_Template $template template object to compile
-     * @param  bool $nocache true is shall be compiled in nocache mode
+     * @param  bool                     $nocache  true is shall be compiled in nocache mode
      *
      * @return bool             true if compiling succeeded, false if it failed
      */
@@ -262,7 +262,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
             if ($loop || $no_sources) {
                 $this->template->properties['file_dependency'][$this->template->source->uid] = array($this->template->source->filepath, $this->template->source->timestamp, $this->template->source->type);
             }
-            $loop++;
+            $loop ++;
             if ($no_sources) {
                 $this->inheritance_child = true;
             } else {
@@ -321,9 +321,9 @@ abstract class Smarty_Internal_TemplateCompilerBase
      * This is a call back from the lexer/parser
      * It executes the required compile plugin for the Smarty tag
      *
-     * @param  string $tag tag name
-     * @param  array $args array with tag attributes
-     * @param  array $parameter array with compilation parameter
+     * @param  string $tag       tag name
+     * @param  array  $args      array with tag attributes
+     * @param  array  $parameter array with compilation parameter
      *
      * @throws SmartyCompilerException
      * @throws SmartyException
@@ -377,7 +377,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
                 }
             }
             // not an internal compiler tag
-            if (strlen($tag) < 6 || substr($tag, -5) != 'close') {
+            if (strlen($tag) < 6 || substr($tag, - 5) != 'close') {
                 // check if tag is a registered object
                 if (isset($this->smarty->registered_objects[$tag]) && isset($parameter['object_method'])) {
                     $method = $parameter['object_method'];
@@ -495,7 +495,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
                 }
             } else {
                 // compile closing tag of block function
-                $base_tag = substr($tag, 0, -5);
+                $base_tag = substr($tag, 0, - 5);
                 // check if closing tag is a registered object
                 if (isset($this->smarty->registered_objects[$base_tag]) && isset($parameter['object_method'])) {
                     $method = $parameter['object_method'];
@@ -554,11 +554,11 @@ abstract class Smarty_Internal_TemplateCompilerBase
      * class name format:  Smarty_Internal_Compile_TagName
      * plugin filename format: Smarty_Internal_Tagname.php
      *
-     * @param  string $tag tag name
-     * @param  array $args list of tag attributes
-     * @param  mixed $param1 optional parameter
-     * @param  mixed $param2 optional parameter
-     * @param  mixed $param3 optional parameter
+     * @param  string $tag    tag name
+     * @param  array  $args   list of tag attributes
+     * @param  mixed  $param1 optional parameter
+     * @param  mixed  $param2 optional parameter
+     * @param  mixed  $param3 optional parameter
      *
      * @return string compiled code
      */
@@ -646,7 +646,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
     /**
      * Check for plugins by default plugin handler
      *
-     * @param  string $tag name of tag
+     * @param  string $tag         name of tag
      * @param  string $plugin_type type of plugin
      *
      * @return boolean true if found
@@ -696,7 +696,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
      * If the content is compiled code and it should be not cached the code is injected
      * into the rendered output.
      *
-     * @param  string $content content of template element
+     * @param  string  $content content of template element
      * @param  boolean $is_code true if content is compiled code
      *
      * @return string  content
@@ -735,9 +735,9 @@ abstract class Smarty_Internal_TemplateCompilerBase
     /**
      *  push current file and line offset on stack for tracing {block} source lines
      *
-     * @param string $file new filename
-     * @param string $uid uid of file
-     * @param int $line line offset to source
+     * @param string      $file  new filename
+     * @param string      $uid   uid of file
+     * @param int         $line  line offset to source
      * @param bool $debug false debug end_compile shall not be called
      */
     public function pushTrace($file, $uid, $line, $debug = true)
