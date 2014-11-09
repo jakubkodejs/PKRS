@@ -21,7 +21,12 @@
  **************************************************************/
 namespace PKRS\Core\Config;
 
-class Config extends \PKRS\Core\Service\Service
+use Neon;
+use PKRS\Core\Exception\ConfigException;
+use PKRS\Core\Exception\FileException;
+use PKRS\Core\Service\Service;
+
+class Config extends Service
 {
 
     private $allowed_types = array(
@@ -52,22 +57,22 @@ class Config extends \PKRS\Core\Service\Service
             return (array)$this->loaded[sha1($config_file)];
         if (file_exists($config_file)) {
             if (substr($config_file, strlen($config_file) - 5, strlen($config_file)) == ".neon") {
-                $neon = new \Neon();
+                $neon = new Neon();
                 $conf = $neon->decode($config_file);
             }
             else if (substr($config_file, strlen($config_file) - 4, strlen($config_file)) == ".php"){
                 $file = include($config_file);
                 if (is_array($file))
                     $conf = $file;
-                else throw new \PKRS\Core\Exception\ConfigException("Config: returned value from PHP config is not array!");
+                else throw new ConfigException("Config: returned value from PHP config is not array!");
             }
             else {
-                throw new \PKRS\Core\Exception\ConfigException("Config: file extension must be only .php or .neon");
+                throw new ConfigException("Config: file extension must be only .php or .neon");
             }
             $this->loaded[sha1($config_file)] = $conf;
             return $conf;
         } else {
-            throw new \PKRS\Core\Exception\FileException("Config: file $config_file not exists!");
+            throw new FileException("Config: file $config_file not exists!");
         }
     }
 
@@ -75,6 +80,10 @@ class Config extends \PKRS\Core\Service\Service
     {
         $conf = $this->parse_config($config_file);
         foreach ($conf as $section => $value) {
+            if (!is_array($value)) { // fix empty config section
+                $this->config[$section] = array();
+                continue;
+            }
             foreach ($value as $key => $val)
                 $this->config[$section][$key] = $val;
         }
@@ -111,7 +120,7 @@ class Config extends \PKRS\Core\Service\Service
             $conf = $this->parse_config(dirname(__FILE__) . DS . "defaultServices.neon");
             foreach ($conf as $name => $settings) {
                 if (isset($settings["class"])) {
-                    $cl_name = "\\" . str_replace("/", "\\", trim($settings["class"], "/")); // fix config escaping
+                    $cl_name = "\\" . str_replace("/", "\\", trim($settings["class"], "/\\")); // fix config escaping
                     if (class_exists($cl_name,true)) {
                         $cache = array("class" => $settings["class"], "name" => $name, "params" => array());
                         unset($settings["class"]);
@@ -119,21 +128,20 @@ class Config extends \PKRS\Core\Service\Service
                             foreach ($settings["params"] as $type => $dependency) {
                                 if (is_array($dependency)){
                                     $c = array();
-                                    foreach($dependency as $k=>$v){
+                                    foreach($dependency as $v){
                                         $c[] = $this->fix_dependency($conf, $name, $type, $v);
                                     }
                                     $dependency = $c;
                                     unset($c);
                                 } else {
                                      $dependency = array($this->fix_dependency($conf, $name, $type, $dependency));
-                                }
+                                } 
                                 $cache["params"][] = array("type"=>$type, "dependency"=>$dependency);
-                                echo "service $name - $type -> ".var_export($dependency,true)."<br>";
                             }
                         }
                         $this->services[strtolower($name)] = $cache;
-                    } else throw new \PKRS\Core\Exception\ConfigException("Service class $cl_name not exists!");
-                } else throw new \PKRS\Core\Exception\ConfigException("File defaultServices.ini corrupted! Not defined class in $name service!");
+                    } else throw new ConfigException("Service class $cl_name not exists!");
+                } else throw new ConfigException("File defaultServices.neon corrupted! Not defined class in $name service!");
             }
         }
     }
@@ -144,25 +152,25 @@ class Config extends \PKRS\Core\Service\Service
      * @param string $type
      * @param string $dependency
      * @return string
-     * @throws \PKRS\Core\Exception\FileException
+     * @throws FileException
      */
     private function fix_dependency($all_config, $service_name, $type, $dependency){
         if ($type == "file"){
             // file must be relative to APP_DIR
             if (!file_exists(APP_DIR.$dependency)){
-                throw new \PKRS\Core\Exception\FileException("Service $service_name loading: file $dependency as param not exists!");
+                throw new FileException("Service $service_name loading: file $dependency as param not exists!");
             }
         } else if ($type == "service"){
             if (!in_array($dependency, array_keys($all_config))){
-                throw new \PKRS\Core\Exception\FileException("Service $service_name loading: service $dependency not defined!");
+                throw new FileException("Service $service_name loading: service $dependency not defined!");
             }
         } else if ($type == "class"){
-            $dependency =  "\\" . str_replace("/", "\\", trim($dependency, "/"));
+            $dependency =  "\\" . str_replace("/", "\\", trim($dependency, "/\\"));
             if (!class_exists($dependency, true)){
-                throw new \PKRS\Core\Exception\FileException("Service $service_name loading: dependency class $dependency not exists!");
+                throw new FileException("Service $service_name loading: dependency class $dependency not exists!");
             }
         } else {
-            throw new \PKRS\Core\Exception\FileException("Services loading: service type $type not allowed (only file, service, class)!");
+            throw new FileException("Services loading: service type $type not allowed (only file, service, class)!");
         }
         return $dependency;
     }
@@ -170,14 +178,14 @@ class Config extends \PKRS\Core\Service\Service
     /**
      * TODO: Fix new config structure
      *
-     * @throws \PKRS\Core\Exception\ConfigException
+     * @throws ConfigException
      */
     private function parseServices()
     {
         if (!isset($this->config["services_overide"]) || !is_array($this->config["services_overide"]) || empty($this->config["services_overide"])) return;
         foreach ($this->config["services_overide"] as $key => $value) {
             if (isset($value["class"])) {
-                $cl_name = "\\" . str_replace(array("/","\\"), "\\", trim($value["class"], "/"));
+                $cl_name = "\\" . str_replace(array("/","\\"), "\\", trim($value["class"], "/\\"));
                 if (class_exists($cl_name, true)) {
                     $cache = array("class" => $value["class"], "name" => $key, "params" => array());
                     foreach ($value as $param => $dependency) {
@@ -186,7 +194,7 @@ class Config extends \PKRS\Core\Service\Service
                             $parts = explode("_", $param);
                             if (isset($parts[1])) {
                                 if (isset($parts[2]) && !in_array($parts[2], $this->allowed_types)) {
-                                    throw new \PKRS\Core\Exception\ConfigException("Parsing config: Type of param service $key -> $dependency ($parts[2]) is not allowed!");
+                                    throw new ConfigException("Parsing config: Type of param service $key -> $dependency ($parts[2]) is not allowed!");
                                 }
                                 $cache["params"][] = array(
                                     "type" => isset($parts[2]) ? $parts[2] : "object",
@@ -196,9 +204,9 @@ class Config extends \PKRS\Core\Service\Service
                         }
                     }
                     $this->services[strtolower($key)] = $cache;
-                } else throw new \PKRS\Core\Exception\ConfigException("Service class $cl_name not exists!");
+                } else throw new ConfigException("Service class $cl_name not exists!");
             } else {
-                throw new \PKRS\Core\Exception\ConfigException("Service $key has no defined Class!");
+                throw new ConfigException("Service $key has no defined Class!");
             }
         }
     }

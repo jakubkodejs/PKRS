@@ -32,8 +32,11 @@ class PKRS
 
     public function __construct($ini_config_file)
     {
+
         include(dirname(__FILE__) . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "_includes" . DIRECTORY_SEPARATOR . "main.php");
+
         $this->service = new ServiceContainer($ini_config_file);
+
     }
 
     public function service()

@@ -42,6 +42,7 @@ class Debug extends \PKRS\Core\Service\Service
         if (self::gc()->get_config()->get("application")["debug"] == "true" && !IS_AJAX) {
             self::$enabled = true;
         }
+        $php_old_error_handler = set_error_handler("pkrs_error_handler", E_ALL);
     }
 
     static function add_dump($name, $var)
@@ -89,7 +90,7 @@ class Debug extends \PKRS\Core\Service\Service
                 return;
             }
             if (!self::$header) {
-                ob_get_clean();
+                //ob_get_clean();
                 self::$header = true;
                 echo "<html><head><title>PKRS Error page</title>";
                 echo "<style type='text/css'>" . file_get_contents(dirname(__FILE__) . DS . "debug.css") . "</style>";
@@ -125,7 +126,7 @@ class Debug extends \PKRS\Core\Service\Service
             if (!empty(self::$logs["error"])) {
 
                 if (!self::$header) {
-                    ob_get_clean();
+                    //ob_get_clean();
                     self::$header = true;
                     echo "<html><head><title>PKRS Error page</title>";
                     echo "<style type='text/css'>" . file_get_contents(dirname(__FILE__) . DS . "debug.css") . "</style>";

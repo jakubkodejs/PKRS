@@ -24,8 +24,10 @@
 namespace PKRS\Core\Requests;
 
 use PKRS\Core\Exception\FileException;
+use PKRS\Core\Service\Service;
+use PKRS\Core\Service\ServiceContainer;
 
-class Form extends \PKRS\Core\Service\Service
+class Form extends Service
 {
 
     // Field types
@@ -61,6 +63,7 @@ class Form extends \PKRS\Core\Service\Service
     const EXTRA_CHECKBOX_NOT_CHECKED_VAL = 580; // Hodnota když checkbox není zaškrtlý
 
     // typy souborů
+    // TODO: add types
     const FILE_IMAGE_JPEG = "image/jpeg";
     const FILE_IMAGE_PNG = "image/png";
     const FILE_IMAGE_BMP = "image/bmp";
@@ -79,7 +82,7 @@ class Form extends \PKRS\Core\Service\Service
     private $multifiles = array();
     private $setted = false;
 
-    public function __construct(\PKRS\Core\Service\ServiceContainer $container)
+    public function __construct(ServiceContainer $container)
     {
         $this->service = $container;
         $this->smarty = $container->get_view()->smarty();
@@ -192,7 +195,7 @@ class Form extends \PKRS\Core\Service\Service
                                 $this->posted_data[$key]["file_name"] = $this->fields[$key]["file_name"];
                                 $this->posted_data[$key]["size"] = filesize($this->fields[$key]["value"]);
                                 $this->posted_data[$key]["web_pah"] = "/" . implode("/", explode(DS, substr($this->fields[$key]["value"], strlen(ROOT_DIR), strlen($this->fields[$key]["value"]))));
-                                $this->posted_data[$key]["nice_size"] = $this->service->get_transformNumbers()->human_filesize($this->posted_data[$key]["size"]);
+                                $this->posted_data[$key]["nice_size"] = self::gc()->get_transformNumbers()->human_filesize($this->posted_data[$key]["size"]);
                             } elseif (isset($this->fields[$key]["file"])) {
                                 // extra information to uploaded file - MULTIFILE
                                 if (!isset($this->fields[$key]["file_name"]) || empty($this->fields[$key]["file_name"])) continue;
@@ -201,7 +204,7 @@ class Form extends \PKRS\Core\Service\Service
                                 $this->posted_data[$key]["file_name"] = $this->fields[$key]["file_name"];
                                 $this->posted_data[$key]["size"] = filesize($this->fields[$key]["value"]);
                                 $this->posted_data[$key]["web_pah"] = "/" . implode("/", explode(DS, substr($this->fields[$key]["value"], strlen(ROOT_DIR), strlen($this->fields[$key]["value"]))));
-                                $this->posted_data[$key]["nice_size"] = $this->controller->transform->human_filesize($this->posted_data[$key]["size"]);
+                                $this->posted_data[$key]["nice_size"] = self::gc()->get_transformNumbers()->human_filesize($this->posted_data[$key]["size"]);
                             }
                         }
                     }

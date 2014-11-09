@@ -1,14 +1,13 @@
 <?php
-/********************************************
+/**************************************************************
  *
- * Auth.php, created 5.8.14
+ * Status.php, created 9.11.14
  *
  * Copyright (C) 2014 by Petr Klimes & development team
  *
- *
  ***************************************************************
  *
- * Contacts:
+ * Contacts: 
  * @author: Petr Klimeš <djpitrrs@gmail.com>
  * @url: http://www.pkrs.eu
  * @url: https://github.com/pitrrs/PKRS
@@ -21,24 +20,12 @@
  * MariaDB v. 5.5 or higher
  *
  **************************************************************/
-namespace PKRS\Core\User;
-// TODO: Finish this class
-use PKRS\Core\Config\Config;
-use PKRS\Core\Object\Object;
-use PKRS\Core\Session\Session;
+namespace PKRS\Core\Headers;
 
-class Auth extends Object
-{
-    // TODO: move to hooks
-    public static function init(Config $config)
-    {
-        Session::start($config);
-    }
+class Status{
 
-    // TODO: move to hooks
-    public static function deinit()
-    {
-        Session::close();
+    public static function send_code($code){
+        http_response_code($code);
     }
 
 }

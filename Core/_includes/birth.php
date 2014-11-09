@@ -45,10 +45,11 @@ function pkrs_error_handler($err, $str, $file, $line, $context)
     return true;
 }
 
-;
+
 /**
  * Send to debug
  *
+ * @param $name
  * @param $var
  */
 function _d($name, $var)
@@ -56,4 +57,4 @@ function _d($name, $var)
     \PKRS\Core\Debug\Debug::add_dump($name, $var);
 }
 
-$php_old_error_handler = set_error_handler("pkrs_error_handler", E_ALL);
+

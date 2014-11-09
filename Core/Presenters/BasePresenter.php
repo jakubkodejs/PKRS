@@ -23,15 +23,14 @@
  **************************************************************/
 namespace PKRS\Core\Presenters;
 
-use Exception;
 use PKRS\Core\Exception\FileException;
 use PKRS\Core\Exception\MainException;
 use PKRS\Core\Headers\Redirects;
-use PKRS\Core\Service\AppService;
+use PKRS\Core\Service\Service;
 use PKRS\Core\User\Messages;
 use Smarty_Internal_Template;
 
-abstract class BasePresenter extends AppService implements IBasePresenter
+abstract class BasePresenter extends Service implements IBasePresenter
 {
     var $smarty;
     var $template;
@@ -49,12 +48,12 @@ abstract class BasePresenter extends AppService implements IBasePresenter
     public function __construct()
     {
         self::gc()->get_hooks()->execute("presenters", "on_create");
-        $this->smarty = self::get_container()->get_view()->smarty();
-        $this->config = self::get_container()->get_config();
+        $this->smarty = self::gc()->get_view()->smarty();
+        $this->config = self::gc()->get_config();
         self::register_app();
         $this->need_login();
         if ($this->need_login) {
-            $this->user = self::get_container()->get_user();
+            $this->user = self::gc()->get_user();
             if (method_exists($this->user, "check_login")) {
                 $this->now_logged = $this->user->check_login();
                 if ($this->user->logged)
@@ -155,7 +154,7 @@ abstract class BasePresenter extends AppService implements IBasePresenter
         } else if (file_exists(ROOT_DIR . CSS_PATH . $css_file)) {
             if (!in_array(CSS_PATH . $css_file, $this->header_css))
                 $this->header_css[] = CSS_PATH . $css_file;
-        } else throw new Exception("CSS File $css_file not exists in path " . CSS_PATH);
+        } else throw new FileException("CSS File $css_file not exists in path " . CSS_PATH);
 
     }
 
@@ -167,7 +166,7 @@ abstract class BasePresenter extends AppService implements IBasePresenter
         } else if (file_exists(ROOT_DIR . JS_PATH . $js_file)) {
             if (!in_array(JS_PATH . $js_file, $this->header_js))
                 $this->header_js[] = JS_PATH . $js_file;
-        } else throw new Exception("JS File $js_file not exists in path " . JS_PATH);
+        } else throw new FileException("JS File $js_file not exists in path " . JS_PATH);
     }
 
     final public function display()

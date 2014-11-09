@@ -23,16 +23,20 @@
  **************************************************************/
 namespace PKRS\Core\Session;
 
-class Session extends \PKRS\Core\Service\Service
+use PKRS\Core\Config\Config;
+use PKRS\Core\Service\Service;
+
+class Session extends Service
 {
     /**
      * [user] = > auth
      * [lang] = > lang
      * [messages]
      */
-    public static function start(\PKRS\Core\Config\Config $config)
+    public static function start(Config $config)
     {
         @session_start();
+        @session_regenerate_id(true);
         if (!isset($_SESSION["user"]))
             $_SESSION["user"] = array();
         if (!isset($_SESSION["lang"]))
@@ -45,11 +49,13 @@ class Session extends \PKRS\Core\Service\Service
                 "info" => array()
             );
         }
+        self::gc()->get_hooks()->execute("session", "on_start",$_SESSION);
     }
 
     public static function close()
     {
         @session_write_close();
+        self::gc()->get_hooks()->execute("session", "on_close");
     }
 
     public static function is_set($key)

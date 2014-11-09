@@ -23,6 +23,7 @@
  **************************************************************/
 namespace PKRS\Core\Service;
 
+use PKRS\Core\Exception\FileException;
 use PKRS\Core\Exception\ServiceException;
 
 class ServiceContainer extends \PKRS\Core\Service\Service
@@ -36,7 +37,7 @@ class ServiceContainer extends \PKRS\Core\Service\Service
     /**
      * @param string $config_ini_file (path to application config ini file)
      */
-    public function __construct($config_ini_file)
+    public function __construct($config_ini_file = null)
     {
         self::set_container($this);
         $this->config = new \PKRS\Core\Config\Config($config_ini_file);
@@ -261,6 +262,7 @@ class ServiceContainer extends \PKRS\Core\Service\Service
      */
     private function create_service($name)
     {
+
         $name = strtolower($name); // fix - service name only small letters
         if (!in_array($name, array_keys($this->services))) { // is service defined?
             throw new ServiceException("Service $name not defined");
@@ -271,31 +273,44 @@ class ServiceContainer extends \PKRS\Core\Service\Service
             } else {
                 // object not created - create it
                 $service = $this->services[$name];
-                $class = "\\" . str_replace("/", "\\", trim($service["class"], "/")); // fix \ escaping
+                $class = "\\" . str_replace("/", "\\", trim(trim($service["class"], "/"),"\\")); // fix \ escaping
+                if (!class_exists($class,true))
+                    throw new FileException("Service: dependency class $class not exists!");
                 $params = array();
                 foreach ($service["params"] as $param) {
                     foreach($param["dependency"] as $dependency){
-                        if ($param["type"] == "service")
-                            $object = $this->get_service($dependency);
-                        elseif ($param["type"] == "extern") {
-                            $cl = "\\" . str_replace("/", "\\", trim($dependency, "/"));
-                            $object = new $cl();
+                        if ($param["type"] == "service"){
+                            if ($dependency == "service_container") $object = $this; // avoid bug problem
+                            else {
+                                $object = $this->get_service($dependency);
+                            }
+                        }
+                        elseif ($param["type"] == "class") {
+                            $cl = "\\" . str_replace("/", "\\", trim(trim($dependency, "/"),"\\"));
+                            if (class_exists($cl, true))
+                                $object = new $cl();
+                            else throw new ServiceException("Service: dependency class $cl not exists!");
                         } elseif ($param["type"] == "this")
                             $object = $this;
                         else {
-                            echo "SPATNE - ".$param["type"]." -> ".$dependency;
+                            echo "SPATNE - ".$param["type"]." -> ".$dependency;exit;
                             $object = $dependency;
                         }
-                        $params[] = new $object();
+                        $params[] = $object;
                     }
                 }
-                $reflection = new \ReflectionClass($class);
-                if (!$reflection->isSubclassOf("\\PKRS\\Core\\Service\\Service")) {
-                    throw new ServiceException("Service $name is not instance of \\PKRS\\Core\\Service\\Service()");
+                try{
+                    $reflection = new \ReflectionClass($class);
+                    if (!$reflection->isSubclassOf("\\PKRS\\Core\\Service\\Service")) {
+                        throw new ServiceException("Service $name is not instance of \\PKRS\\Core\\Service\\Service()");
+                    }
+                    if ($reflection->hasMethod("__construct") && is_array($params))
+                        $object = $reflection->newInstanceArgs($params);
+                    else $object = $reflection->newInstance();
+                } catch (ServiceException $e){
+                    var_dump($e);
+                    exit;
                 }
-                if ($reflection->hasMethod("__construct") && is_array($params))
-                    $object = $reflection->newInstanceArgs($params);
-                else $object = $reflection->newInstance();
                 // register service object
                 $this->objects[$name] = $object;
                 // return new object

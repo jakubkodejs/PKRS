@@ -11,8 +11,6 @@ db_config:
 
 hooks:
     class = /PKRS/Core/Hooks/Hooks
-    params:
-        service = service_container
 
 router:
     class = /PKRS/Core/Router/Router

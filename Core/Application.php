@@ -38,6 +38,7 @@ class Application
         $this->config = $serviceContainer->get_config();
         $this->router = $serviceContainer->get_router();
         $serviceContainer->get_hooks()->execute("application", "on_create");
+
     }
 
     public function run()

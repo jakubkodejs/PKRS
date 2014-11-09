@@ -323,7 +323,7 @@ class Decoder
         $line = substr_count($text, "\n");
         $col = $offset - strrpos("\n" . $text, "\n") + 1;
         $token = $last ? str_replace("\n", '<new line>', substr($last[0], 0, 40)) : 'end';
-        throw new Exception(str_replace('%s', $token, $message) . " on line $line, column $col.");
+        throw new Exception(str_replace('%s', $token, $message) . " on line $line, column $col.".var_export($last,true));
     }
 
 }

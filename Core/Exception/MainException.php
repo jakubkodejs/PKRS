@@ -23,18 +23,24 @@
  **************************************************************/
 namespace PKRS\Core\Exception;
 
-class MainException extends \Exception
+use Exception;
+use PKRS\Core\Headers\Status;
+use PKRS\Core\Service\Service;
+
+class MainException extends Exception
 {
 
-    public function __construct($message = "", $code = 0, \Exception $previous = null)
+    public function __construct($message = "", $code = 0, Exception $previous = null)
     {
+        echo $message;exit;
+        Status::send_code(500);
         parent::__construct($message, $code, $previous);
-        /*try {
-            \PKRS\Core\Service\Service::gc()->get_debug()->log_error($message, $code, $this);
-            \PKRS\Core\Service\Service::gc()->get_hooks()->execute("application", "on_error");
-        } catch (\Exception $e){
+        try {
+            Service::gc()->get_debug()->log_error($message, $code, $this);
+            Service::gc()->get_hooks()->execute("application", "on_error");
+        } catch (Exception $e){
             die("Master fatal error: ".$e->getMessage());
-        }*/
+        }
     }
 
 }
