@@ -20,9 +20,9 @@ class Smarty_Internal_Compile_Private_Modifier extends Smarty_Internal_CompileBa
     /**
      * Compiles code for modifier execution
      *
-     * @param  array $args array with attributes from parser
-     * @param  object $compiler compiler object
-     * @param  array $parameter array with compilation parameter
+     * @param  array  $args      array with attributes from parser
+     * @param  object $compiler  compiler object
+     * @param  array  $parameter array with compilation parameter
      *
      * @return string compiled code
      */

@@ -29,7 +29,7 @@
  * @author  credits to Duda <duda@big.hu>
  * @version 1.0
  *
- * @param array $params parameters
+ * @param array                    $params   parameters
  * @param Smarty_Internal_Template $template template object
  *
  * @throws SmartyException

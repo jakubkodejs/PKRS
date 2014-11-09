@@ -34,9 +34,9 @@ class Smarty_Internal_Compile_Private_Print_Expression extends Smarty_Internal_C
     /**
      * Compiles code for generating output from any expression
      *
-     * @param array $args array with attributes from parser
-     * @param object $compiler compiler object
-     * @param array $parameter array with compilation parameter
+     * @param array  $args      array with attributes from parser
+     * @param object $compiler  compiler object
+     * @param array  $parameter array with compilation parameter
      *
      * @throws SmartyException
      * @return string compiled code
@@ -66,7 +66,7 @@ class Smarty_Internal_Compile_Private_Print_Expression extends Smarty_Internal_C
                         $modifierlist = array();
                         foreach ($compiler->smarty->default_modifiers as $key => $single_default_modifier) {
                             preg_match_all('/(\'[^\'\\\\]*(?:\\\\.[^\'\\\\]*)*\'|"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"|:|[^:]+)/', $single_default_modifier, $mod_array);
-                            for ($i = 0, $count = count($mod_array[0]); $i < $count; $i++) {
+                            for ($i = 0, $count = count($mod_array[0]); $i < $count; $i ++) {
                                 if ($mod_array[0][$i] != ':') {
                                     $modifierlist[$key][] = $mod_array[0][$i];
                                 }
@@ -94,7 +94,7 @@ class Smarty_Internal_Compile_Private_Print_Expression extends Smarty_Internal_C
                 }
                 // auto loaded filters
                 if (isset($compiler->smarty->autoload_filters[Smarty::FILTER_VARIABLE])) {
-                    foreach ((array)$compiler->template->smarty->autoload_filters[Smarty::FILTER_VARIABLE] as $name) {
+                    foreach ((array) $compiler->template->smarty->autoload_filters[Smarty::FILTER_VARIABLE] as $name) {
                         $result = $this->compile_output_filter($compiler, $name, $output);
                         if ($result !== false) {
                             $output = $result;
@@ -124,8 +124,8 @@ class Smarty_Internal_Compile_Private_Print_Expression extends Smarty_Internal_C
 
     /**
      * @param object $compiler compiler object
-     * @param string $name name of variable filter
-     * @param string $output embedded output
+     * @param string $name     name of variable filter
+     * @param string   $output   embedded output
      *
      * @return string
      */

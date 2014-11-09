@@ -30,6 +30,4 @@ class Updater extends Service{
 
     }
 
-
-
 }

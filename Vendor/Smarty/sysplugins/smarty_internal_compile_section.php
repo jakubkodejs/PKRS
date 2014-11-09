@@ -41,7 +41,7 @@ class Smarty_Internal_Compile_Section extends Smarty_Internal_CompileBase
     /**
      * Compiles code for the {section} tag
      *
-     * @param  array $args array with attributes from parser
+     * @param  array  $args     array with attributes from parser
      * @param  object $compiler compiler object
      *
      * @return string compiled code
@@ -152,7 +152,7 @@ class Smarty_Internal_Compile_Sectionelse extends Smarty_Internal_CompileBase
     /**
      * Compiles code for the {sectionelse} tag
      *
-     * @param  array $args array with attributes from parser
+     * @param  array  $args     array with attributes from parser
      * @param  object $compiler compiler object
      *
      * @return string compiled code
@@ -180,7 +180,7 @@ class Smarty_Internal_Compile_Sectionclose extends Smarty_Internal_CompileBase
     /**
      * Compiles code for the {/section} tag
      *
-     * @param  array $args array with attributes from parser
+     * @param  array  $args     array with attributes from parser
      * @param  object $compiler compiler object
      *
      * @return string compiled code

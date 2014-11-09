@@ -218,7 +218,7 @@ class Smarty_Internal_Debug extends Smarty_Internal_Data
             }
         }
 
-        return (object)array('tpl_vars' => $tpl_vars, 'config_vars' => $config_vars);
+        return (object) array('tpl_vars' => $tpl_vars, 'config_vars' => $config_vars);
     }
 
     /**

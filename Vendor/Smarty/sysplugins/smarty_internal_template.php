@@ -66,8 +66,8 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * @var array
      */
     public $properties = array('file_dependency' => array(),
-        'nocache_hash' => '',
-        'function' => array());
+                               'nocache_hash'    => '',
+                               'function'        => array());
     /**
      * required plugins
      *
@@ -116,13 +116,13 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * Some of the global Smarty settings copied to template scope
      * It load the required template resources and cacher plugins
      *
-     * @param string $template_resource template resource string
-     * @param Smarty $smarty Smarty instance
-     * @param Smarty_Internal_Template $_parent back pointer to parent object with variables or null
-     * @param mixed $_cache_id cache   id or null
-     * @param mixed $_compile_id compile id or null
-     * @param bool $_caching use caching?
-     * @param int $_cache_lifetime cache life-time in seconds
+     * @param string                   $template_resource template resource string
+     * @param Smarty                   $smarty            Smarty instance
+     * @param Smarty_Internal_Template $_parent           back pointer to parent object with variables or null
+     * @param mixed                    $_cache_id         cache   id or null
+     * @param mixed                    $_compile_id       compile id or null
+     * @param bool                     $_caching          use caching?
+     * @param int                      $_cache_lifetime   cache life-time in seconds
      */
     public function __construct($template_resource, $smarty, $_parent = null, $_cache_id = null, $_compile_id = null, $_caching = null, $_cache_lifetime = null)
     {
@@ -195,7 +195,8 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
         // call compiler
         try {
             $code = $this->compiler->compileTemplate($this);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             // restore old timestamp in case of error
             if ($this->smarty->compile_locking && !$this->source->recompiled && $saved_timestamp) {
                 touch($this->compiled->filepath, $saved_timestamp);
@@ -230,6 +231,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
             // don't write cache file
             return false;
         }
+        $this->cached->timestamp = time();
         $this->properties['cache_lifetime'] = $this->cache_lifetime;
         $this->properties['unifunc'] = 'content_' . str_replace(array('.', ','), '_', uniqid('', true));
         $content = $this->createTemplateCodeFrame($content, true);
@@ -247,13 +249,13 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
     /**
      * Template code runtime function to get subtemplate content
      *
-     * @param string $template the resource handle of the template file
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
-     * @param integer $caching cache mode
+     * @param string  $template       the resource handle of the template file
+     * @param mixed   $cache_id       cache id to be used with this template
+     * @param mixed   $compile_id     compile id to be used with this template
+     * @param integer $caching        cache mode
      * @param integer $cache_lifetime life time of cache data
      * @param         $data
-     * @param int $parent_scope scope in which {include} should execute
+     * @param int     $parent_scope   scope in which {include} should execute
      *
      * @returns string template content
      */
@@ -305,14 +307,14 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
     /**
      * Template code runtime function to set up an inline subtemplate
      *
-     * @param string $template the resource handle of the template file
-     * @param mixed $cache_id cache id to be used with this template
-     * @param mixed $compile_id compile id to be used with this template
-     * @param integer $caching cache mode
+     * @param string  $template       the resource handle of the template file
+     * @param mixed   $cache_id       cache id to be used with this template
+     * @param mixed   $compile_id     compile id to be used with this template
+     * @param integer $caching        cache mode
      * @param integer $cache_lifetime life time of cache data
      * @param         $data
-     * @param int $parent_scope scope in which {include} should execute
-     * @param string $hash nocache hash code
+     * @param int     $parent_scope   scope in which {include} should execute
+     * @param string  $hash           nocache hash code
      *
      * @returns string template content
      */
@@ -348,7 +350,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * Create code frame for compiled and cached templates
      *
      * @param  string $content optional template content
-     * @param  bool $cache flag for cache file
+     * @param  bool   $cache   flag for cache file
      *
      * @return string
      */
@@ -439,7 +441,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * - Check if compiled or cache file is valid
      *
      * @param  array $properties special template properties
-     * @param  bool $cache flag if called from cache file
+     * @param  bool  $cache      flag if called from cache file
      *
      * @return bool  flag if compiled or cache file is valid
      */
@@ -509,8 +511,8 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * Template code runtime function to create a local Smarty variable for array assignments
      *
      * @param string $tpl_var tempate variable name
-     * @param bool $nocache cache mode of variable
-     * @param int $scope scope of variable
+     * @param bool   $nocache cache mode of variable
+     * @param int    $scope   scope of variable
      */
     public function createLocalArrayVariable($tpl_var, $nocache = false, $scope = Smarty::SCOPE_LOCAL)
     {
@@ -635,7 +637,7 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
      * set Smarty property in template context
      *
      * @param string $property_name property name
-     * @param mixed $value value
+     * @param mixed  $value         value
      *
      * @throws SmartyException
      */

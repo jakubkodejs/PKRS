@@ -79,7 +79,7 @@ class Smarty_Security
     /**
      * This is an array of trusted PHP modifiers.
      * If empty all modifiers are allowed.
-     * To disable all modifier set $modifiers = null.
+     * To disable all modifier set $php_modifiers = null.
      *
      * @var array
      */
@@ -254,7 +254,7 @@ class Smarty_Security
     {
         // check for internal always required tags
         if (in_array($tag_name, array('assign', 'call', 'private_filter', 'private_block_plugin', 'private_function_plugin', 'private_object_block_function',
-            'private_object_function', 'private_registered_function', 'private_registered_block', 'private_special_variable', 'private_print_expression', 'private_modifier'))
+                                      'private_object_function', 'private_registered_function', 'private_registered_block', 'private_special_variable', 'private_print_expression', 'private_modifier'))
         ) {
             return true;
         }
@@ -371,7 +371,7 @@ class Smarty_Security
         // rebuild secure dir index
         if ($_secure) {
             $this->_secure_dir = $this->secure_dir;
-            foreach ((array)$this->secure_dir as $directory) {
+            foreach ((array) $this->secure_dir as $directory) {
                 $directory = realpath($directory);
                 $this->_resource_dir[$directory] = true;
             }
@@ -448,7 +448,7 @@ class Smarty_Security
             $this->_php_resource_dir = array();
 
             $this->_trusted_dir = $this->trusted_dir;
-            foreach ((array)$this->trusted_dir as $directory) {
+            foreach ((array) $this->trusted_dir as $directory) {
                 $directory = realpath($directory);
                 $this->_php_resource_dir[$directory] = true;
             }

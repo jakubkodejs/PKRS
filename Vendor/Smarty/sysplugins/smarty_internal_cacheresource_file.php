@@ -20,7 +20,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
     /**
      * populate Cached Object with meta data from Resource
      *
-     * @param Smarty_Template_Cached $cached cached object
+     * @param Smarty_Template_Cached   $cached    cached object
      * @param Smarty_Internal_Template $_template template object
      *
      * @return void
@@ -82,7 +82,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
      * Read the cached template and process its header
      *
      * @param Smarty_Internal_Template $_template template object
-     * @param Smarty_Template_Cached $cached cached object
+     * @param Smarty_Template_Cached   $cached    cached object
      *
      * @return booleantrue or false if the cached content does not exist
      */
@@ -100,7 +100,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
      * Write the rendered template output to cache
      *
      * @param Smarty_Internal_Template $_template template object
-     * @param string $content content to cache
+     * @param string                   $content   content to cache
      *
      * @return boolean success
      */
@@ -120,7 +120,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
     /**
      * Empty cache
      *
-     * @param Smarty $smarty
+     * @param Smarty  $smarty
      * @param integer $exp_time expiration time (number of seconds, not timestamp)
      *
      * @return integer number of cache files deleted
@@ -133,11 +133,11 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
     /**
      * Empty cache for a specific template
      *
-     * @param Smarty $smarty
-     * @param string $resource_name template name
-     * @param string $cache_id cache id
-     * @param string $compile_id compile id
-     * @param integer $exp_time expiration time (number of seconds, not timestamp)
+     * @param Smarty  $smarty
+     * @param string  $resource_name template name
+     * @param string  $cache_id      cache id
+     * @param string  $compile_id    compile id
+     * @param integer $exp_time      expiration time (number of seconds, not timestamp)
      *
      * @return integer number of cache files deleted
      */
@@ -147,7 +147,10 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
         $_compile_id = isset($compile_id) ? preg_replace('![^\w\|]+!', '_', $compile_id) : null;
         $_dir_sep = $smarty->use_sub_dirs ? '/' : '^';
         $_compile_id_offset = $smarty->use_sub_dirs ? 3 : 0;
-        $_dir = realpath($smarty->getCacheDir()) . '/';
+        if (($_dir = realpath($smarty->getCacheDir())) === false) {
+            return 0;
+        }
+        $_dir .= '/';
         $_dir_length = strlen($_dir);
         if (isset($_cache_id)) {
             $_cache_id_parts = explode('|', $_cache_id);
@@ -198,7 +201,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
                         @rmdir($_file->getPathname());
                     }
                 } else {
-                    $_parts = explode($_dir_sep, str_replace('\\', '/', substr((string)$_file, $_dir_length)));
+                    $_parts = explode($_dir_sep, str_replace('\\', '/', substr((string) $_file, $_dir_length)));
                     $_parts_count = count($_parts);
                     // check name
                     if (isset($resource_name)) {
@@ -217,7 +220,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
                         if ($_parts_count < $_cache_id_parts_count) {
                             continue;
                         }
-                        for ($i = 0; $i < $_cache_id_parts_count; $i++) {
+                        for ($i = 0; $i < $_cache_id_parts_count; $i ++) {
                             if ($_parts[$i] != $_cache_id_parts[$i]) {
                                 continue 2;
                             }
@@ -236,7 +239,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
                             }
                         }
                     }
-                    $_count += @unlink((string)$_file) ? 1 : 0;
+                    $_count += @unlink((string) $_file) ? 1 : 0;
                 }
             }
         }
@@ -247,7 +250,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
     /**
      * Check is cache is locked for this template
      *
-     * @param Smarty $smarty Smarty object
+     * @param Smarty                 $smarty Smarty object
      * @param Smarty_Template_Cached $cached cached object
      *
      * @return boolean true or false if cache is locked
@@ -267,7 +270,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
     /**
      * Lock cache for this template
      *
-     * @param Smarty $smarty Smarty object
+     * @param Smarty                 $smarty Smarty object
      * @param Smarty_Template_Cached $cached cached object
      *
      * @return bool|void
@@ -281,7 +284,7 @@ class Smarty_Internal_CacheResource_File extends Smarty_CacheResource
     /**
      * Unlock cache for this template
      *
-     * @param Smarty $smarty Smarty object
+     * @param Smarty                 $smarty Smarty object
      * @param Smarty_Template_Cached $cached cached object
      *
      * @return bool|void

@@ -34,7 +34,7 @@ class Smarty_Internal_Compile_Capture extends Smarty_Internal_CompileBase
     /**
      * Compiles code for the {capture} tag
      *
-     * @param  array $args array with attributes from parser
+     * @param  array  $args     array with attributes from parser
      * @param  object $compiler compiler object
      *
      * @return string compiled code
@@ -68,7 +68,7 @@ class Smarty_Internal_Compile_CaptureClose extends Smarty_Internal_CompileBase
     /**
      * Compiles code for the {/capture} tag
      *
-     * @param  array $args array with attributes from parser
+     * @param  array  $args     array with attributes from parser
      * @param  object $compiler compiler object
      *
      * @return string compiled code

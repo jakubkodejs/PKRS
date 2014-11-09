@@ -66,9 +66,9 @@ class Smarty_Internal_SmartyTemplateCompiler extends Smarty_Internal_TemplateCom
     /**
      * Initialize compiler
      *
-     * @param string $lexer_class class name
+     * @param string $lexer_class  class name
      * @param string $parser_class class name
-     * @param Smarty $smarty global instance
+     * @param Smarty $smarty       global instance
      */
     public function __construct($lexer_class, $parser_class, $smarty)
     {
@@ -98,7 +98,7 @@ class Smarty_Internal_SmartyTemplateCompiler extends Smarty_Internal_TemplateCom
             // start state on child templates
             $this->lex->yypushstate(Smarty_Internal_Templatelexer::CHILDBODY);
         }
-        if (function_exists('mb_internal_encoding') && ((int)ini_get('mbstring.func_overload')) & 2) {
+        if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2) {
             $mbEncoding = mb_internal_encoding();
             mb_internal_encoding('ASCII');
         } else {

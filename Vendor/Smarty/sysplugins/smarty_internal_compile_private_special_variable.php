@@ -19,7 +19,7 @@ class Smarty_Internal_Compile_Private_Special_Variable extends Smarty_Internal_C
     /**
      * Compiles code for the special $smarty variables
      *
-     * @param  array $args array with attributes from parser
+     * @param  array  $args     array with attributes from parser
      * @param  object $compiler compiler object
      * @param         $parameter
      *
