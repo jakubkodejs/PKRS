@@ -36,7 +36,6 @@ class Session extends Service
     public static function start(Config $config)
     {
         @session_start();
-        @session_regenerate_id(true);
         if (!isset($_SESSION["user"]))
             $_SESSION["user"] = array();
         if (!isset($_SESSION["lang"]))
