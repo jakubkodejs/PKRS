@@ -58,7 +58,7 @@ class Config extends Service
         if (file_exists($config_file)) {
             if (substr($config_file, strlen($config_file) - 5, strlen($config_file)) == ".neon") {
                 $neon = new Neon();
-                $conf = $neon->decode($config_file);
+                $conf = (array)$neon->decode($config_file);
             }
             else if (substr($config_file, strlen($config_file) - 4, strlen($config_file)) == ".php"){
                 $file = include($config_file);
@@ -135,7 +135,7 @@ class Config extends Service
                                     unset($c);
                                 } else {
                                      $dependency = array($this->fix_dependency($conf, $name, $type, $dependency));
-                                } 
+                                }
                                 $cache["params"][] = array("type"=>$type, "dependency"=>$dependency);
                             }
                         }

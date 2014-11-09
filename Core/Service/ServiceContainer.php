@@ -119,7 +119,7 @@ class ServiceContainer extends \PKRS\Core\Service\Service
      */
     public function get_mailer()
     {
-        return $this->get_service("mailer");
+        return $this->get_service("mailer")->reset_mailer();
     }
 
     /**
