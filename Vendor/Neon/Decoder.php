@@ -288,7 +288,11 @@ class Decoder
         if ($key === NULL) {
             $result[] = $value;
         } elseif ($result && array_key_exists($key, $result)) {
-            $this->error("Duplicated key '$key'");
+            if (!is_array($result[$key])){
+                $result[$key] = array($result[$key]);;
+            }
+            $result[$key][] = $value;
+            //$this->error("Duplicated key '$key'");
         } else {
             $result[$key] = $value;
         }

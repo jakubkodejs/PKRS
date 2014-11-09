@@ -23,6 +23,8 @@
  **************************************************************/
 namespace PKRS\Core\Service;
 
+use PKRS\Core\Exception\ServiceException;
+
 class ServiceContainer extends \PKRS\Core\Service\AppService
 {
 
@@ -41,17 +43,20 @@ class ServiceContainer extends \PKRS\Core\Service\AppService
         $this->config = new \PKRS\Core\Config\Config($config_ini_file);
         $this->js_css_consolidate_service();
         $this->services = $this->config->getServices();
+        // prevent new loading class
         $this->objects["config"] = $this->config;
         $this->objects["service_container"] = $this;
-        self::$self = $this;
+        self::$self = $this; // static access
+
         // first - We need start hooks!!!
         $hooks = $this->get_hooks();
         $hooks->register_action("presenters", "on_create", array("\\PKRS\\Core\\Modules\\PHPModule", "run_modules"), array($this, (array)@$this->config->get("modules")), 0);
         $hooks->register_action("modules", "on_create", array("\\PKRS\\Core\\Modules\\PHPModule", "check_instance"), array($this, (array)@$this->config->get("modules")), 0);
         $hooks->execute("service", "on_create");
         $hooks->execute("application", "on_start");
+
         // init debuger
-        $debug = $this->get_debug();
+        $this->get_debug();
     }
 
     public static function get_instatce()
@@ -232,57 +237,59 @@ class ServiceContainer extends \PKRS\Core\Service\AppService
     private function get_service_name_by_class($class)
     {
         foreach ($this->services as $name => $data) {
+            echo $data["class"]." == ".$class."<br>";
             if ($data["class"] == $class) {
                 return $name;
             }
         }
-        throw new \Exception("Get service by class: $class not defined");
+        throw new ServiceException("Get service by class: $class not defined");
     }
 
     /**
      * @param string $name - Service name
      * @return object
-     * @throws \PKRS\Core\Exception\ServiceException
+     * @throws ServiceException
      */
     private function create_service($name)
     {
         $name = strtolower($name); // fix - service name only small letters
         if (!in_array($name, array_keys($this->services))) { // is service defined?
-            throw new \PKRS\Core\Exception\ServiceException("Service $name not defined");
-        } else {
-            // yes, service defined
+            throw new ServiceException("Service $name not defined");
+        } else { // yes, service defined
             if (in_array($name, array_keys($this->objects))) {
                 // we have object - return it
                 return $this->objects[$name];
             } else {
                 // object not created - create it
                 $service = $this->services[$name];
-                $class = "\\" . str_replace("/", "\\", trim($service["class"], "/"));
+                $class = "\\" . str_replace("/", "\\", trim($service["class"], "/")); // fix \ escaping
                 $params = array();
                 foreach ($service["params"] as $param) {
-                    if ($param["type"] == "service")
-                        $object = $this->get_service($this->get_service_name_by_class($param["value"]));
-                    elseif ($param["type"] == "extern") {
-                        $cl = "\\" . str_replace("/", "\\", trim($param["value"], "/"));
-                        $object = new $cl();
-                    } elseif ($param["type"] == "this")
-                        $object = $this;
-                    else {
-                        $object = $param["value"];
+                    foreach($param["dependency"] as $dependency){
+                        if ($param["type"] == "service")
+                            $object = $this->get_service($dependency);
+                        elseif ($param["type"] == "extern") {
+                            $cl = "\\" . str_replace("/", "\\", trim($dependency, "/"));
+                            $object = new $cl();
+                        } elseif ($param["type"] == "this")
+                            $object = $this;
+                        else {
+                            echo "SPATNE - ".$param["type"]." -> ".$dependency;
+                            $object = $dependency;
+                        }
+                        $params[] = new $object();
                     }
-                    $params[] = $object;
                 }
                 $reflection = new \ReflectionClass($class);
                 if (!$reflection->isSubclassOf("\\PKRS\\Core\\Service\\Service")) {
-                    throw new \PKRS\Core\Exception\ServiceException("Service $name is not instance of \\PKRS\\Core\\Service\\Service()");
+                    throw new ServiceException("Service $name is not instance of \\PKRS\\Core\\Service\\Service()");
                 }
-                if ($reflection->hasMethod("__construct"))
+                if ($reflection->hasMethod("__construct") && is_array($params))
                     $object = $reflection->newInstanceArgs($params);
                 else $object = $reflection->newInstance();
                 // register service object
                 $this->objects[$name] = $object;
                 // return new object
-
                 return $this->objects[$name];
             }
         }

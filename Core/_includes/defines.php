@@ -26,12 +26,13 @@ define("MAINTENANCE", false);
 
 define("DS", DIRECTORY_SEPARATOR);
 
-// Application folders
+// Application directories
 define("ROOT_DIR", realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR);
 define("APP_DIR", ROOT_DIR . "app" . DS);
-define("CONFIG_DIR", APP_DIR);
 define("INCLUDE_DIR", APP_DIR . "PKRS" . DS . "Core" . DS . "_includes" . DS);
 define("THEMES_DIR", APP_DIR . "Themes" . DS);
+define("APP_PATH", dirname($_SERVER["SCRIPT_FILENAME"])."/");
+define("APP_WEB_PATH","/".implode("/",explode(DS,$_SERVER["SCRIPT_NAME"],-1))."/");
 
 // web paths to folders
 define("THEMES_PATH", "/app/Themes/");

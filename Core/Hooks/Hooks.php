@@ -33,14 +33,12 @@ class Hooks extends \PKRS\Core\Service\Service
     {
         $this->service = self::gc();
         if (file_exists(dirname(__FILE__) . DS . "allowedHooks.ini")) {
-            $hooks = $this->service->get_config()->parse_config(dirname(__FILE__) . DS . "allowedHooks.ini", true);
+            $hooks = $this->service->get_config()->parse_config(dirname(__FILE__) . DS . "allowedHooks.neon");
             foreach ($hooks as $section => $value)
                 foreach ($value as $action => $val) {
                     $this->register_hook($section, $action);
                 }
         }
-        var_dump($this->service->get_config()->getAll());
-        exit;
     }
 
     public function register_hook($section, $action)
@@ -84,12 +82,11 @@ class Hooks extends \PKRS\Core\Service\Service
 
     private function _execute($section, $action, $input = array())
     {
-        echo ($section . " -> " . $action) . "<br>";
+    //    echo ($section . " -> " . $action) . "<br>";
         if (isset($this->hooks[$section][$action])) {
             foreach ($this->hooks[$section][$action] as $level => $hooks) {
-                if ($section == "mailer") var_dump($hooks);
                 foreach ($hooks as $hook) {
-                    if ($input) {
+                    if (!!$input){
                         if (is_array($hook["params"]))
                             $hook["params"]["_input"] = $input;
                         else $hook["params"] = array("param" => $hook["params"], "_input" => $input);

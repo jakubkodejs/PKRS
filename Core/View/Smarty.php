@@ -30,6 +30,8 @@ class Smarty extends \PKRS\Core\Service\Service
 
     public function __construct(\Smarty $smarty)
     {
+        if (!$smarty instanceof \Smarty)
+            throw new \PKRS\Core\Exception\MainException("View: Not smarty instance!");
         $smarty->debugging = false;
         $smarty->caching = false;
         $smarty->force_compile = true;

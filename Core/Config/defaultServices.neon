@@ -1,17 +1,13 @@
 service_container:
     class = /PKRS/Core/Service/ServiceContainer
-    params:
-        file = "/app/config/config.ini"
 
 config:
     class = /PKRS/Core/Config/Config
-    params:
-        file = "/app/config/config.ini"
 
 db_config:
     class = /PKRS/Core/Config/DbConfig
     params:
-        service = databse
+        service = database
 
 hooks:
     class = /PKRS/Core/Hooks/Hooks
@@ -44,9 +40,9 @@ cookies:
 user:
     class = /PKRS/Core/User/User
     params:
-        - service = session
-        - service = config
-        - service = database
+        service = session
+        service = config
+        service = database
 
 messages:
     class = /PKRS/Core/User/Messages

@@ -59,12 +59,30 @@ class Database extends \PKRS\Core\Service\Service
     }
 
     /**
-     * @param $query SQL string
+     * @param $query string
      * @return \PKRS\Core\Database\DatabaseFluent
      */
     public function query($query)
     {
         $id = uniqid("query");
+        \PKRS\Core\Debug\Debug::log_mysql($query, $id);
+        $fluent = $this->conn->prepare($query);
+        $this->last_fluent = $fluent;
+        return new \PKRS\Core\Database\DatabaseFluent($fluent, $id);
+    }
+
+    /**
+     * TODO:: Create pagination guery a send to fluent with param
+     *
+     * @param $query string
+     * @return \PKRS\Core\Database\DatabaseFluent
+     */
+    public function query_with_pagination($query)
+    {
+        $id = uniqid("query");
+        if (strpos(strtoupper($query), "LIMIT")>0){
+            //$query = explode("LIMIT")
+        }
         \PKRS\Core\Debug\Debug::log_mysql($query, $id);
         $fluent = $this->conn->prepare($query);
         $this->last_fluent = $fluent;

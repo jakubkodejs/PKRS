@@ -26,11 +26,11 @@ function app_loader($name)
 {
     if (trim($name) == "") return;
     $nn = $name;
-    if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php"))
-        require(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php");
-    if (class_exists($name)) {
+    if (class_exists($name, false)) {
         return;
     }
+    if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php"))
+        require(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php");
     $finded = false;
     $parts = explode("\\", trim($name, "\\"));
     $dir = APP_DIR . implode(DS, $parts);
@@ -39,6 +39,11 @@ function app_loader($name)
         $finded = true;
     }
     if (!$finded) {
+        // vendor tests
+        // Using namespace?
+        if (is_int(strpos($name,"\\"))){
+            $name = @end(explode("\\",$name));
+        }
         if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php")) {
 
             include APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php";

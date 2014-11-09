@@ -29,8 +29,12 @@ class MainException extends \Exception
     public function __construct($message = "", $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        \PKRS\Core\Service\Service::gc()->get_debug()->log_error($message, $code, $this);
-        \PKRS\Core\Service\Service::gc()->get_hooks()->execute("application", "on_error");
+        /*try {
+            \PKRS\Core\Service\Service::gc()->get_debug()->log_error($message, $code, $this);
+            \PKRS\Core\Service\Service::gc()->get_hooks()->execute("application", "on_error");
+        } catch (\Exception $e){
+            die("Master fatal error: ".$e->getMessage());
+        }*/
     }
 
 }

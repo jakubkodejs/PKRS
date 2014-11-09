@@ -35,9 +35,9 @@ class AppService extends Object
     /**
      * @param \PKRS\Core\Service\ServiceContainer $container
      */
-    public function set_container(ServiceContainer &$container)
+    public function set_container(ServiceContainer $container)
     {
-        self::$serviceContainer = & $container;
+        self::$serviceContainer =  $container;
     }
 
     /**
