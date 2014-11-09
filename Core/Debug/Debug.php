@@ -22,7 +22,7 @@
  *
  **************************************************************/
 namespace PKRS\Core\Debug;
-
+// TODO: Improve this class
 class Debug extends \PKRS\Core\Service\Service
 {
 

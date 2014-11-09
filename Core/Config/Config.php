@@ -167,9 +167,14 @@ class Config extends \PKRS\Core\Service\Service
         return $dependency;
     }
 
+    /**
+     * TODO: Fix new config structure
+     *
+     * @throws \PKRS\Core\Exception\ConfigException
+     */
     private function parseServices()
     {
-        if (!isset($this->config["services_overide"]) || !is_array($this->config["services_overide"])) return;
+        if (!isset($this->config["services_overide"]) || !is_array($this->config["services_overide"]) || empty($this->config["services_overide"])) return;
         foreach ($this->config["services_overide"] as $key => $value) {
             if (isset($value["class"])) {
                 $cl_name = "\\" . str_replace(array("/","\\"), "\\", trim($value["class"], "/"));
@@ -198,10 +203,18 @@ class Config extends \PKRS\Core\Service\Service
         }
     }
 
+    /**
+     * Get config value
+     * TODO: Improve it
+     *
+     * @param $key
+     * @param string $default
+     * @return array|string
+     */
     public function get($key, $default = "")
     {
         if (in_array($key, array_keys($this->config))) {
-            return $this->config[$key];
+            return (array)$this->config[$key];
         } else {
             // back compatibility
             if (in_array($key, array_keys($this->config["application"])))
@@ -211,6 +224,11 @@ class Config extends \PKRS\Core\Service\Service
         }
     }
 
+    /**
+     * Get services
+     *
+     * @return array
+     */
     public function getServices()
     {
         return $this->services;

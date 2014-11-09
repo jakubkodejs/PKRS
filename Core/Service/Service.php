@@ -23,18 +23,20 @@
  **************************************************************/
 namespace PKRS\Core\Service;
 
-class Service extends \PKRS\Core\Object\Object
+use PKRS\Core\Object\Object;
+
+class Service extends Object
 {
 
     private static $service_container;
 
-    public static function set_containr(\PKRS\Core\Service\ServiceContainer $serviceContainer)
+    public static function set_container(ServiceContainer $serviceContainer)
     {
         self::$service_container = $serviceContainer;
     }
 
     /**
-     * @return \PKRS\Core\Service\ServiceContainer
+     * @return ServiceContainer
      */
     public static function gc()
     {

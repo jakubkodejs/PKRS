@@ -25,7 +25,7 @@ namespace PKRS\Core\Service;
 
 use PKRS\Core\Exception\ServiceException;
 
-class ServiceContainer extends \PKRS\Core\Service\AppService
+class ServiceContainer extends \PKRS\Core\Service\Service
 {
 
     private $services = array();
@@ -38,8 +38,7 @@ class ServiceContainer extends \PKRS\Core\Service\AppService
      */
     public function __construct($config_ini_file)
     {
-        parent::set_container($this);
-        \PKRS\Core\Service\Service::set_containr($this);
+        self::set_container($this);
         $this->config = new \PKRS\Core\Config\Config($config_ini_file);
         $this->js_css_consolidate_service();
         $this->services = $this->config->getServices();
@@ -226,6 +225,10 @@ class ServiceContainer extends \PKRS\Core\Service\AppService
         return $this->get_service("validator");
     }
 
+    /**
+     * @param $type
+     * @return object
+     */
     private function get_service($type)
     {
         $type = strtolower($type);
@@ -234,6 +237,12 @@ class ServiceContainer extends \PKRS\Core\Service\AppService
         else return $this->create_service($type);
     }
 
+    /**
+     * @deprecated will be remove
+     * @param $class
+     * @return int|string
+     * @throws \PKRS\Core\Exception\ServiceException
+     */
     private function get_service_name_by_class($class)
     {
         foreach ($this->services as $name => $data) {

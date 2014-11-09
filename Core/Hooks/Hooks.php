@@ -82,11 +82,10 @@ class Hooks extends \PKRS\Core\Service\Service
 
     private function _execute($section, $action, $input = array())
     {
-    //    echo ($section . " -> " . $action) . "<br>";
         if (isset($this->hooks[$section][$action])) {
             foreach ($this->hooks[$section][$action] as $level => $hooks) {
                 foreach ($hooks as $hook) {
-                    if (!!$input){
+                    if (!!$input) {
                         if (is_array($hook["params"]))
                             $hook["params"]["_input"] = $input;
                         else $hook["params"] = array("param" => $hook["params"], "_input" => $input);
