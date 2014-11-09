@@ -74,19 +74,22 @@ abstract class BasePresenter extends Service implements IBasePresenter
     {
         $modules = array();
         $search_dir = APP_DIR . "Modules" . DS . "JSModules" . DS;
-        foreach (glob($search_dir . "*", GLOB_ONLYDIR) as $dir) {
-            $dir = str_replace($search_dir, '', $dir);
-            if (file_exists($search_dir . $dir . DS . "_load.csv")) {
-                $load = file($search_dir . $dir . DS . "_load.csv");
-                if (!empty($load)) {
-                    $add = array("css" => array(), "js" => array());
-                    foreach ($load as $l) {
-                        $c = explode(";", $l);
-                        if (is_array($c) && isset($c[1]) && in_array($c[0], array_keys($add))) {
-                            $add[$c[0]][] = JS_MODULES_PATH . $dir . "/" . $c[1];
+        if (is_dir($search_dir)){
+            $search = (array)@glob($search_dir . "*", GLOB_ONLYDIR);
+            foreach ($search as $dir) {
+                $dir = str_replace($search_dir, '', $dir);
+                if (file_exists($search_dir . $dir . DS . "_load.csv")) {
+                    $load = file($search_dir . $dir . DS . "_load.csv");
+                    if (!empty($load)) {
+                        $add = array("css" => array(), "js" => array());
+                        foreach ($load as $l) {
+                            $c = explode(";", $l);
+                            if (is_array($c) && isset($c[1]) && in_array($c[0], array_keys($add))) {
+                                $add[$c[0]][] = JS_MODULES_PATH . $dir . "/" . $c[1];
+                            }
                         }
+                        $modules[$dir] = $add;
                     }
-                    $modules[$dir] = $add;
                 }
             }
         }

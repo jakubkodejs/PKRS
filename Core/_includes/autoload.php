@@ -26,22 +26,22 @@ function app_loader($name)
 {
     if (trim($name) == "") return;
     $nn = $name;
-    if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php"))
-        require(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php");
-    if (class_exists($name, false)) {
+    if (class_exists($name, true)) {
         return;
     }
+    if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php"))
+        require(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . "PHPMailer" . DS . "PHPMailerAutoload.php");
     $parts = explode("\\", trim($name, "\\"));
     $dir = APP_DIR . implode(DS, $parts);
     if (file_exists($dir . ".php")) {
-        include($dir . ".php");
+        include_once($dir . ".php");
         return;
     }
     if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php")) {
-        include APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php";
+        include_once APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php";
         return;
     } else if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".class.php")) {
-        include(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".class.php");
+        include_once(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".class.php");
         return;
     } else {
         $iter = new RecursiveIteratorIterator(
@@ -49,14 +49,13 @@ function app_loader($name)
             RecursiveIteratorIterator::SELF_FIRST,
             RecursiveIteratorIterator::CATCH_GET_CHILD
         );
-        $name = $name . ".php";
         foreach ($iter as $file) {
-            if ($file->getFilename() == $name) {
-                include($file->getPathname());
+            if ($file->getFilename() == $name. ".php") {
+                include_once($file->getPathname());
                 return;
             } else
-                if (trim(strtolower($file->getFilename())) == trim(strtolower($name))) {
-                    include($file->getPathname());
+                if (trim(strtolower($file->getFilename())) == trim(strtolower($name. ".php"))) {
+                    include_once($file->getPathname());
                     return;
                 }
         }
@@ -66,11 +65,14 @@ function app_loader($name)
     if (is_int(strpos($name, "\\"))) {
         $name = @end(explode("\\", $name));
     }
+    if (class_exists($name, true)) {
+        return;
+    }
     if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php")) {
-        include APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php";
+        include_once APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".php";
         return;
     } else if (file_exists(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".class.php")) {
-        include(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".class.php");
+        include_once(APP_DIR . DS . "PKRS" . DS . "Vendor" . DS . $name . DS . $name . ".class.php");
         return;
     } else {
         $iter = new RecursiveIteratorIterator(
@@ -78,20 +80,19 @@ function app_loader($name)
             RecursiveIteratorIterator::SELF_FIRST,
             RecursiveIteratorIterator::CATCH_GET_CHILD
         );
-        $name = $name . ".php";
         foreach ($iter as $file) {
-            if ($file->getFilename() == $name) {
-                include($file->getPathname());
+            if ($file->getFilename() == $name. ".php") {
+                include_once($file->getPathname());
                 return;
             } else
-                if (trim(strtolower($file->getFilename())) == trim(strtolower($name))) {
-                    include($file->getPathname());
+                if (trim(strtolower($file->getFilename())) == trim(strtolower($name. ".php"))) {
+                    include_once($file->getPathname());
                     return;
                 }
         }
     }
 
-    die("Class " . $nn . " not found!!");
+    die("Class " . $name ."($nn)" . " not found!!");
 
 
 }
