@@ -343,7 +343,7 @@ abstract class GitHubClientBase
 		}
 
 		if($status !== $expectedHttpCode)
-			throw new GitHubClientException("Expected status [$expectedHttpCode], actual status [$status], URL [$url]", GitHubClientException::INVALID_HTTP_CODE);
+			throw new GitHubClientException("Expected status [$expectedHttpCode], actual status [$status], URL [$url]".var_export($content,true), GitHubClientException::INVALID_HTTP_CODE);
 		
 		if ( $returnType == 'string' )
 			return implode("\n", $content);
@@ -351,11 +351,12 @@ abstract class GitHubClientBase
 		if ( $returnType )
 		{
 			$response = json_decode(implode("\n", $content));
+            return $response;
 			if($isArray)
 			{
 				if(!is_array($response))
 					throw new GitHubClientException("Expected array, actual results:" . print_r($response, true), GitHubClientException::INVALID_RESULT);
-					
+
 				return GitHubObject::fromArray($response, $returnType);
 			}
 			else
