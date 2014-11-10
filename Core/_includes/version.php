@@ -20,4 +20,4 @@
  * MariaDB v. 5.5 or higher
  *
  **************************************************************/
-define("PKRS_VERSION","0.1.2");
+define("PKRS_VERSION","0.1.2"); // if you can disable autoupdate set PKRS_VERSION to "-1"
