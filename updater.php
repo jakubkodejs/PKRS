@@ -153,21 +153,9 @@ function zip_extract($file, $extractPath) {
 }
 function chmod_r($Path) {
     return;
-    $dp = opendir($Path);
-    while($File = readdir($dp)) {
-        if($File != "." AND $File != "..") {
-            if(is_dir($File)){
-                chmod($File, 0755);
-                chmod_r($Path.DS.$File);
-            }else{
-                chmod($Path.DS.$File, 0644);
-            }
-        }
-    }
-    closedir($dp);
+
 }
 function copy_files($source, $destination){
-    updater_log($source);
     // Cycle through all source files
     //var_dump(posix_getpwuid(stat($source)["uid"]));exit;
     foreach (scandir($source) as $file) {
@@ -213,14 +201,14 @@ function rrmdir($dir) {
  * @param bool $is_fatal
  */
 function updater_log($message, $is_fatal = false){
-    $message = date("d.m.Y H:i:s")." - ".($is_fatal ? "ERROR - " : "").$message."\n";
+    $message = date("d.m.Y H:i:s")." - ".($is_fatal ? "ERROR - " : "").$message;
     if (!file_exists(LOG_FILE)){
         $h = fopen(LOG_FILE, "w+");
     } else $h = fopen(LOG_FILE, "a");
-    fwrite($h, $message);
+    fwrite($h, $message.PHP_EOL);
     fclose($h);
     if ($is_fatal) die($message);
-    else echo $message;
+    //else echo $message."<br>";
 }
 function download_and_store($remote, $local){
     return file_put_contents($local, file_get_contents($remote));

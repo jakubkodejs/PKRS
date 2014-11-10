@@ -39,7 +39,7 @@ abstract class AjaxPresenter extends BasePresenter{
     /**
      * Exit before starting display
      */
-    final function before_display(){
+    function before_display(){
         ob_clean();
         echo json_encode($this->json);
         exit;
