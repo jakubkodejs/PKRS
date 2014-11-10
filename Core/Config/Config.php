@@ -76,8 +76,11 @@ class Config extends Service
         }
     }
 
-    public function load_config($config_file)
+    public function load_config($config_file, $section = null)
     {
+        if (is_array($config_file)){
+
+        }
         $conf = $this->parse_config($config_file);
         foreach ($conf as $section => $value) {
             if (!is_array($value)) { // fix empty config section
