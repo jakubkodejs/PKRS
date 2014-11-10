@@ -86,7 +86,7 @@ class Debug extends \PKRS\Core\Service\Service
         if (IS_AJAX) return;
         self::$detailed[] = array("errno" => $errno, "errstr" => $errstr, "file" => $errfile, "line" => $errline, "context" => $context);
         if (self::$enabled) {
-            if ($errno != E_PARSE || $errno != E_ERROR) {
+            if ($errno != E_PARSE || $errno != E_ERROR ) {
                 return;
             }
             if (!self::$header) {
