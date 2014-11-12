@@ -26,7 +26,7 @@ class Main extends \PKRS\Core\Presenters\BasePresenter{
 
     function homepage($params){
         $this->template = "homepage.tpl";
-        $this->smarty->assign("test", "Hello World!");
+        $this->smarty->assign("test", "Hello World! :)");
     }
 
     function need_login()
